@@ -172,7 +172,7 @@ message.getItem = function(item){
 message.get = function(item, defaultValue){
     /**   Return the value of a specific parameter. If the parameter does not
         have a value return the default value.
-        
+
         :param item: The name of the parameter 
         :param default: Default value
         :return: The value of the parameter or, if that doesn't exist, 
@@ -181,6 +181,10 @@ message.get = function(item, defaultValue){
 };
 
 message.getItems = function(){
+    /**  Return a list of tuples (key, value) representing all parameters
+        of this class instance that has a value.
+        
+        :return: iterator  */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -189,10 +193,21 @@ message.getValues = function(){
 };
 
 message.contains = function(item){
+    /** Answers the question: does this parameter have a value?
+        
+        :param item: The name of the parameter 
+        :return: True/False */
     throw new Error("Unsupported Operation Exception");        
 };
 
 message.request = function(location, fragment_enc){
+    /** Given a URL this method will add a fragment, a query part or extend
+        a query part if it already exists with the information in this instance.
+        
+        :param location: A URL 
+        :param fragment_enc: Whether the information should be placed in a
+            fragment (True) or in a query part (False)
+        :return: The extended URL  */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -201,6 +216,10 @@ message.setItem = function(key, value){
 };
 
 message.equals = function(other){
+    /** Compare two message instances. This with another instance.
+        
+        :param other:  The other instance
+        :return: True/False */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -209,34 +228,68 @@ message.deleteItem = function(key){
 };
 
 message.getLength = function(){
+    /** Return the number of parameters that has a value.
+        
+        :return: Number of parameters with a value. */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.extra = function(){
+    /**  Return the extra parameters that this instance. Extra meaning those
+        that are not listed in the c_params specification.
+        
+        :return: The key,value pairs for keys that are not in the c_params
+            specification. */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.onlyExtras = function(){
+    /** Return True if this instance only has key,value pairs for keys
+        that are not defined in c_params.
+        
+        :return: True/False */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.update = function(item){
+    /**  Update the information in this instance.
+        
+        :param item: a dictionary or a Message instance  */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.toJWE = function(keys, enc, alg, lev){
+    /** Place the information in this instance in a JSON object. Make that
+        JSON object the body of a JWT. Then encrypt that JWT using the
+        specified algorithms and the given keys. Return the encrypted JWT.
+        :param keys: Dictionary, keys are key type and key is the value or
+            simple list.
+        :param enc: Content Encryption Algorithm
+        :param alg: Key Management Algorithm
+        :param lev: Used for JSON construction
+        :return: An encrypted JWT. If encryption failed an exception will be
+            raised. */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.fromJWE = function(msg, keys){
+    /** Decrypt an encrypted JWT and load the JSON object that was the body
+        of the JWT into this object.
+        :param msg: An encrypted JWT
+        :param keys: Dictionary, keys are key type and key is the value or
+            simple list.
+        :return: The decrypted message. If decryption failed an exception
+            will be raised. */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.weed = function(){
+    /** Get rid of key value pairs that are not standard */
     throw new Error("Unsupported Operation Exception");            
 };
 
 message.removeBlanks = function(){
+    /** Get rid of parameters that has no value. */
     throw new Error("Unsupported Operation Exception");            
 };
 

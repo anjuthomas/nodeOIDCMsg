@@ -16,13 +16,27 @@ var message = Message.prototype;
 function Message(kwargs){
 };
 
-message.ToUrlEncoded = function(level){
+message.c_param = {};
+message.c_default = {};
+message.c_allowed_values = {};
+
+message.parameters = function(){
+    /**  Returns a list of all known parameters for this message type.
+        :return: list of parameter names  */
+}
+
+message.setDefaults = function(){
+    /** Based on specification set a parameters value to the default value. */
+    throw new Error("Unsupported Operation Exception");    
+}
+
+message.toUrlEncoded = function(level){
     /**  Creates a string using the application/x-www-form-urlencoded format
         :return: A string of the application/x-www-form-urlencoded format */
     throw new Error("Unsupported Operation Exception");
 };
 
-message.FromUrlEncoded = function(urlEncoded, kwargs){
+message.fromUrlEncoded = function(urlEncoded, kwargs){
     /**  Starting with a string of the application/x-www-form-urlencoded format 
         this method creates a class instance
         :param urlencoded: The string
@@ -30,47 +44,47 @@ message.FromUrlEncoded = function(urlEncoded, kwargs){
     throw new Error("Unsupported Operation Exception");    
 };
 
-message.ToDict = function(lev){
+message.toDict = function(lev){
     throw new Error("Unsupported Operation Exception");    
 };
 
-message.FromDict = function(dictionary, kwargs){
+message.fromDict = function(dictionary, kwargs){
     throw new Error("Unsupported Operation Exception");    
 };
 
-message.AddValue = function(skey, vtyp, key, val,_deser, isNullAllowed){
+message.addValue = function(skey, vtyp, key, val,_deser, isNullAllowed){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.ToJson = function(lev, indent){
+message.toJson = function(lev, indent){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.FromJson = function(txt){
+message.fromJson = function(txt){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.ToJwt = function(key=None, algorithm="", lev=0){
+message.toJwt = function(key=None, algorithm="", lev=0){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.AddKey = function(keyjar, issuer, key, keyType="", kid="", noKidIssuer=None){
+message.addKey = function(keyjar, issuer, key, keyType="", kid="", noKidIssuer=None){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.GetVerifyKeys = function(keyjar, key, jso, header, jwt, kwargs){
+message.getVerifyKeys = function(keyjar, key, jso, header, jwt, kwargs){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.FromJwt = function(txt, key=None, verify=True, keyjar=None, kwargs){
+message.fromJwt = function(txt, key=None, verify=True, keyjar=None, kwargs){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.TypeCheck = function(type, allowed, val, na){
+message.typeCheck = function(type, allowed, val, na){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.Verify = function(args){
+message.verify = function(args){
     throw new Error("Unsupported Operation Exception");        
 };
 

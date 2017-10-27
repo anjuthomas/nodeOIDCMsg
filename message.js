@@ -13,7 +13,7 @@ var UnicodeEncodeError = require('./lib/UnicodeEncodeError');
 
 var message = Message.prototype;
 
-function Message(args){
+function Message(kwargs){
 };
 
 message.ToUrlEncoded = function(level){
@@ -23,7 +23,7 @@ message.ToUrlEncoded = function(level){
 };
 
 message.FromUrlEncoded = function(urlEncoded, kwargs){
-/**  Starting with a string of the application/x-www-form-urlencoded format 
+    /**  Starting with a string of the application/x-www-form-urlencoded format 
         this method creates a class instance
         :param urlencoded: The string
         :return: A class instance or raise an exception on error */
@@ -38,7 +38,7 @@ message.FromDict = function(dictionary, kwargs){
     throw new Error("Unsupported Operation Exception");    
 };
 
-message.AddValue = function(skey, vtyp, key, val, key, avl, _deser, isNullAllowed){
+message.AddValue = function(skey, vtyp, key, val,_deser, isNullAllowed){
     throw new Error("Unsupported Operation Exception");        
 };
 

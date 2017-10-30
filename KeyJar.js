@@ -6,8 +6,8 @@ function KeyJar(issuerKeys, verifySSL, removeAfter){
 };
 
 keyjar.issuerKeys= {};
-keyjar.verifySSL = {};
-keyjar.removeAfter= {};
+keyjar.verifySSL = false;
+keyjar.removeAfter= 0;
 
 keyjar.repr = function(){
     throw new Error("Unsupported Operation Exception");         
@@ -57,7 +57,7 @@ keyJar.getKeyByKid = function(kid, owner){
     throw new Error("Unsupported Operation Exception");        
 };
 
-keyJar.xKeys = function(var, part){
+keyJar.xKeys = function(variable, part){
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -86,26 +86,14 @@ keyJar.matchOwner = function(url){
 };
 
 keyJar.toString= function(){
-    /** Return the value of a specified parameter. */
     throw new Error("Unsupported Operation Exception");        
 };
 
 keyJar.getKeys = function(){
-    /**   Return the value of a specific parameter. If the parameter does not
-        have a value return the default value.
-
-        :param item: The name of the parameter 
-        :param default: Default value
-        :return: The value of the parameter or, if that doesn't exist, 
-        the default value  */
     throw new Error("Unsupported Operation Exception");        
 };
 
 keyJar.loadKeys= function(pcr, issuer, replace){
-    /**  Return a list of tuples (key, value) representing all parameters
-        of this class instance that has a value.
-        
-        :return: iterator  */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -114,10 +102,6 @@ keyJar.find = function(source, issuer){
 };
 
 keyJar.dumpIssuerKeys = function(issuer){
-    /** Answers the question: does this parameter have a value?
-        
-        :param item: The name of the parameter 
-        :return: True/False */
     throw new Error("Unsupported Operation Exception");        
 };
 

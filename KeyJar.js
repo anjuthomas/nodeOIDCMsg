@@ -13,7 +13,7 @@ keyjar.repr = function(){
     throw new Error("Unsupported Operation Exception");         
 };
 
-keyjar.add = function(issuer, url, args){
+keyjar.add = function(issuer, url, kwargs){
     /** Add a set of keys by url. This method will create a 
         :py:class:`oicmsg.oauth2.keybundle.KeyBundle` instance with the
         url as source specification.
@@ -42,8 +42,8 @@ keyJar.items = function(){
 }
 
 keyJar.get = function(keyUser, keyType, issuer, kid, args){
-    /** :param key_use: A key useful for this usage (enc, dec, sig, ver)
-        :param key_type: Type of key (rsa, ec, symmetric, ..)
+    /** :param keyUser: A key useful for this usage (enc, dec, sig, ver)
+        :param keyType: Type of key (rsa, ec, symmetric, ..)
         :param issuer: Who is responsible for the keys, "" == me
         :param kid: A Key Identifier
         :return: A possibly empty list of keys */

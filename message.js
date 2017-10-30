@@ -81,15 +81,15 @@ message.fromDict = function(dictionary, kwargs){
     throw new Error("Unsupported Operation Exception");    
 };
 
-message.addValue = function(skey, vtyp, key, val,_deser, isNullAllowed){
+message.addValue = function(sKey, vTyp, key, val,_deser, isNullAllowed){
     /**   Main method for adding a value to the instance. Does all the
         checking on type of value and if among allowed values.
-        :param skey: string version of the key 
-        :param vtyp: Type of value
+        :param sKey: string version of the key 
+        :param vTyp: Type of value
         :param key: original representation of the key
         :param val: The value to add
         :param _deser: A deserializer for this value type
-        :param null_allowed: Whether null is an allowed value for this key */
+        :param isNullAllowed: Whether null is an allowed value for this key */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -200,12 +200,12 @@ message.contains = function(item){
     throw new Error("Unsupported Operation Exception");        
 };
 
-message.request = function(location, fragment_enc){
+message.request = function(location, fragmentEnc){
     /** Given a URL this method will add a fragment, a query part or extend
         a query part if it already exists with the information in this instance.
         
         :param location: A URL 
-        :param fragment_enc: Whether the information should be placed in a
+        :param fragmentEnc: Whether the information should be placed in a
             fragment (True) or in a query part (False)
         :return: The extended URL  */
     throw new Error("Unsupported Operation Exception");        

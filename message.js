@@ -217,12 +217,6 @@ message.fromJwt = function(txt, key=None, verify=True, keyjar=None, kwargs){
     }    
 };
 
-message.toString = function(){
-    /** Return a string representation of this class
-        :return: A string representation of this class */
-    throw new Error("Unsupported Operation Exception");        
-}
-
 message.addKey = function(keyjar, issuer, key, keyType="", kid="", noKidIssuer=None){
     try{
         throw new Error("Unsupported Operation Exception");  

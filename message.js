@@ -12,6 +12,8 @@ var TypeError = require('./lib/TypeError');
 var UnicodeEncodeError = require('./lib/UnicodeEncodeError');
 
 var message = Message.prototype;
+message = Object.create(mutableMapping);
+message.constructor = Message;
 
 function Message(kwargs){
 };
@@ -34,7 +36,23 @@ message.setDefaults = function(){
 message.toUrlEncoded = function(level){
     /**  Creates a string using the application/x-www-form-urlencoded format
         :return: A string of the application/x-www-form-urlencoded format */
-    throw new Error("Unsupported Operation Exception");
+    try{
+        throw new Error("Unsupported Operation Exception"); 
+    } catch (e){
+        if (e instanceof MissingRequiredAttributeError){
+            // Statements to handle error
+        } else if (e instanceof InvalidKeyException){
+            // Statements to handle error
+        } else if (e instanceof InvalidValueError){
+            // Statements to handle error
+        } else if (e instanceof TypeError){
+            // Statements to handle error
+        } else if (e instanceof UnicodeEncodeError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.fromUrlEncoded = function(urlEncoded, kwargs){
@@ -42,7 +60,21 @@ message.fromUrlEncoded = function(urlEncoded, kwargs){
         this method creates a class instance
         :param urlencoded: The string
         :return: A class instance or raise an exception on error */
-    throw new Error("Unsupported Operation Exception");    
+    try{
+        throw new Error("Unsupported Operation Exception");   
+    } catch (e){
+        if (e instanceof InvalidKeyException){
+            // Statements to handle error
+        } else if (e instanceof InvalidValueError){
+            // Statements to handle error
+        } else if (e instanceof ParameterError){
+            // Statements to handle error
+        } else if (e instanceof TooManyValuesError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.serialize = function(method="urlencoded", lev=0, kwargs){
@@ -70,7 +102,17 @@ message.deserialize = function(info, method="urlencoded", kwargs){
 message.toDict = function(lev){
     /** Return a dictionary representation of the class
         :return: A dict */
-    throw new Error("Unsupported Operation Exception");    
+    try{
+        throw new Error("Unsupported Operation Exception"); 
+    } catch (e){
+        if (e instanceof InvalidKeyException){
+            // Statements to handle error
+        } else if (e instanceof InvalidValueError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.fromDict = function(dictionary, kwargs){
@@ -78,7 +120,17 @@ message.fromDict = function(dictionary, kwargs){
         single value.
         :param dictionary: The info
         :return: A class instance or raise an exception on error*/
-    throw new Error("Unsupported Operation Exception");    
+    try{
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof InvalidKeyException){
+            // Statements to handle error
+        } else if (e instanceof InvalidValueError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.addValue = function(sKey, vTyp, key, val,_deser, isNullAllowed){
@@ -90,7 +142,21 @@ message.addValue = function(sKey, vTyp, key, val,_deser, isNullAllowed){
         :param val: The value to add
         :param _deser: A deserializer for this value type
         :param isNullAllowed: Whether null is an allowed value for this key */
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof DecodeError){
+            // Statements to handle error
+        } else if (e instanceof InvalidValue){
+            // Statements to handle error
+        } else if (e instanceof IllegalArgumentException){
+            // Statements to handle error
+        } else if (e instanceof TooManyValues){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.toJson = function(lev, indent){
@@ -131,31 +197,83 @@ message.fromJwt = function(txt, key=None, verify=True, keyjar=None, kwargs){
         :param keyjar: A KeyJar that might contain the necessary key.
         :param kwargs: Extra key word arguments
         :return: A class instance */
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");   
+    } catch (e){
+        if (e instanceof AssertionError){
+            // Statements to handle error
+        } else if (e instanceof InvalidAlgorithmException){
+            // Statements to handle error
+        } else if (e instanceof InvalidSignatureValueException){
+            // Statements to handle error
+        } else if (e instanceof InvalidKeyException){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }    
 };
 
-message.toString = function{
+message.toString = function(){
     /** Return a string representation of this class
         :return: A string representation of this class */
     throw new Error("Unsupported Operation Exception");        
 }
 
 message.addKey = function(keyjar, issuer, key, keyType="", kid="", noKidIssuer=None){
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");  
+    }catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }       
 };
 
 message.getVerifyKeys = function(keyjar, key, jso, header, jwt, kwargs){
-    throw new Error("Unsupported Operation Exception");        
+    try{ 
+        throw new Error("Unsupported Operation Exception");  
+    }catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }    
 };
 
 message.typeCheck = function(type, allowed, val, na){
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");  
+    } catch (e){
+        if (e instanceof NotAllowedValueError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.verify = function(kwargs){
     /** Make sure all the required values are there and that the values are
         of the correct type */
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else if (e instanceof MissingRequiredAttributeError){
+            // Statements to handle error
+        } else if (e instanceof InvalidValueError){
+            // Statements to handle error
+        } else if (e instanceof NotAllowedValueError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }       
 };
 
 message.getKeys= function(){
@@ -177,7 +295,15 @@ message.get = function(item, defaultValue){
         :param default: Default value
         :return: The value of the parameter or, if that doesn't exist, 
         the default value  */
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 message.getItems = function(){
@@ -189,14 +315,6 @@ message.getItems = function(){
 };
 
 message.getValues = function(){
-    throw new Error("Unsupported Operation Exception");        
-};
-
-message.contains = function(item){
-    /** Answers the question: does this parameter have a value?
-        
-        :param item: The name of the parameter 
-        :return: True/False */
     throw new Error("Unsupported Operation Exception");        
 };
 
@@ -212,7 +330,14 @@ message.request = function(location, fragmentEnc){
 };
 
 message.setItem = function(key, value){
-    throw new Error("Unsupported Operation Exception");        
+    try{
+        throw new Error("Unsupported Operation Exception"); 
+    } catch (e){
+    if (e instanceof KeyError){
+        // Statements to handle error
+    } else {
+        // statements to handle error
+    }      
 };
 
 message.equals = function(other){
@@ -255,7 +380,15 @@ message.update = function(item){
     /**  Update the information in this instance.
         
         :param item: a dictionary or a Message instance  */
-    throw new Error("Unsupported Operation Exception");            
+    try{
+        throw new Error("Unsupported Operation Exception"); 
+    } catch (e){
+        if (e instanceof InvalidValue){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }        
 };
 
 message.toJWE = function(keys, enc, alg, lev){
@@ -294,4 +427,3 @@ message.removeBlanks = function(){
 };
 
 module.exports = message;
-

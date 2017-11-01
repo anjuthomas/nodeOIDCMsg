@@ -14,7 +14,15 @@ jwt.packInit = function(){
 };
 
 jwt.packKey= function(owner="", kid=""){
-    throw new Error("Unsupported Operation Exception");
+    try{
+        throw new Error("Unsupported Operation Exception");
+    } catch (e){
+        if (e instanceof NoSuitableSigningKeys){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }
 };
 
 jwt.pack = function(kid="", owner="", cls_instance=None, kwargs){
@@ -26,11 +34,27 @@ jwt.verify = function(rj, token){
 };
 
 jwt.decrypt = function(rj, token){
-    throw new Error("Unsupported Operation Exception");    
+    try{
+        throw new Error("Unsupported Operation Exception");
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }    
 }
 
 jwt.unpack = function(token){
-    throw new Error("Unsupported Operation Exception");    
+    try { 
+        throw new Error("Unsupported Operation Exception");  
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    }   
 };
 
 module.exports = jwt;

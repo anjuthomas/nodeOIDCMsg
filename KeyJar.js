@@ -22,7 +22,15 @@ keyjar.add = function(issuer, url, kwargs){
         :param url: Where can the key/-s be found
         :param kwargs: extra parameters for instantiating KeyBundle
         :return: A :py:class:`oicmsg.oauth2.keybundle.KeyBundle` instance */
-    throw new Error("Unsupported Operation Exception");    
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };
 };
 
 keyJar.addSymmetric = function(issuer, key, args){
@@ -30,7 +38,15 @@ keyJar.addSymmetric = function(issuer, key, args){
 };
 
 keyJar.addKb = function(issuer, kb){
-    throw new Error("Unsupported Operation Exception");    
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };   
 };
 
 keyJar.setItem = function(issuer, val){
@@ -47,7 +63,17 @@ keyJar.get = function(keyUser, keyType, issuer, kid, args){
         :param issuer: Who is responsible for the keys, "" == me
         :param kid: A Key Identifier
         :return: A possibly empty list of keys */
-    throw new Error("Unsupported Operation Exception");    
+        try {
+            throw new Error("Unsupported Operation Exception");    
+        } catch (e){
+            if (e instanceof KeyError){
+                // Statements to handle error
+            } else if (e instanceof AssertionError){
+                // Statements to handle error
+            } else {
+                // statements to handle error
+            }
+        };
 };
 
 keyJar.getSigningKey = function(keyType, owner, kid, args){
@@ -89,19 +115,51 @@ keyJar.decryptKeys = function(part){
 };
 
 keyJar.getItem = function(issuer){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };         
 };
 
 keyJar.removeKey = function(issuer, keyType, key){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };     
 };
 
 keyJar.update= function(kj){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };        
 };
 
 keyJar.matchOwner = function(url){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyIOError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };       
 };
 
 keyJar.toString= function(){
@@ -119,18 +177,44 @@ keyJar.loadKeys= function(pcr, issuer, replace){
         :param replace: If all previously gathered keys from this provider
             should be replace.
         :return: Dictionary with usage as key and keys as values */
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else if (e instanceof MessageException){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };       
 };
 
 keyJar.find = function(source, issuer){
     /** Find a key bundle
     :param source: A url
     :param issuer: The issuer of keys */
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };        
 };
 
 keyJar.dumpIssuerKeys = function(issuer){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };       
 };
 
 keyJar.exportJwks = function(isPrivate, issuer){
@@ -140,11 +224,29 @@ keyJar.exportJwks = function(isPrivate, issuer){
 keyJar.importJwks = function(jwks, issuer){
     /** :param jwks: Dictionary representation of a JWKS
         :param issuer: Who 'owns' the JWKS */
-    throw new Error("Unsupported Operation Exception");        
+        try {
+            throw new Error("Unsupported Operation Exception");    
+        } catch (e){
+            if (e instanceof KeyError){
+                // Statements to handle error
+            } else if (e instanceof InvalidValue){
+                // Statements to handle error
+            } else {
+                // statements to handle error
+            }
+        };       
 };
 
 keyJar.addKeyJar= function(keyJar){
-    throw new Error("Unsupported Operation Exception");        
+    try {
+        throw new Error("Unsupported Operation Exception");    
+    } catch (e){
+        if (e instanceof KeyError){
+            // Statements to handle error
+        } else {
+            // statements to handle error
+        }
+    };       
 };
 
 keyJar.dump= function(){

@@ -10,6 +10,9 @@ var ParameterError = require('./lib/ParameterError');
 var TooManyValuesError = require('./lib/TooManyValuesError');
 var TypeError = require('./lib/TypeError');
 var UnicodeEncodeError = require('./lib/UnicodeEncodeError');
+var KeyIOError = require('./lib/KeyIOError');
+var MessageException = require('./lib/MessageException');
+var NoSuitableSigningKeysError = require('./lib/NoSuitableSigningKeysError');
 
 var message = Message.prototype;
 message = Object.create(mutableMapping);

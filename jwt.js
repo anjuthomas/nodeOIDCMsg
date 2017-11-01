@@ -1,5 +1,8 @@
 'use strict';
 
+var KeyError = require('./lib/KeyError');
+var NoSuitableSigningKeysError = require('./lib/NoSuitableSigningKeysError');
+
 var jwt = JWT.prototype;
 
 function JWT(keyjar, iss='', lifetime=0, signAlg='RS256', msgType=JsonWebToken, encrypt=False, encEnc="A128CBC-HS256", encAlg="RSA1_5"){

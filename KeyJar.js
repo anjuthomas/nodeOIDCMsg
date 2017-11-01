@@ -1,5 +1,9 @@
 'use strict';
 
+var KeyError = require('./lib/KeyError');
+var KeyIOError = require('./lib/KeyIOError');
+var MessageException = require('./lib/MessageException');
+
 var keyJar = KeyJar.prototype;
 
 function KeyJar(issuerKeys, verifySSL, removeAfter){

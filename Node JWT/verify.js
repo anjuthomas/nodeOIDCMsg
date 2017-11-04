@@ -7,6 +7,7 @@ var jws               = require('jws');
 var xtend             = require('xtend');
 
 module.exports = function (jwtString, secretOrPublicKey, tokenProfile, callback) {
+  /* Fetch standard claims using the token profile passed in to verify */
   options = tokenProfile.getStandardClaims();
   if ((typeof options === 'function') && !callback) {
     callback = options;
@@ -128,6 +129,7 @@ module.exports = function (jwtString, secretOrPublicKey, tokenProfile, callback)
     }
   }
 
+  // Dynamically verify claims specific to the token profile that was passed in
   Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
     var claim = tokenProfile.options_to_payload[key];
     if (options[key]) {

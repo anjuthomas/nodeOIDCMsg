@@ -74,6 +74,7 @@ var options_for_objects = [
 ];*/
 
 module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) {
+  /* fetch standard claims from token */ 
   var payload = tokenProfile.getStandardClaims();
   if (typeof options === 'function') {
     callback = options;
@@ -159,6 +160,7 @@ module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) 
     }
   }
 
+  /* Dynamically generate payload using token profile claims */
   Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
     var claim = tokenProfile.options_to_payload[key];
     if (typeof options[key] !== 'undefined') {

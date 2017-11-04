@@ -6,7 +6,8 @@ var timespan          = require('./lib/timespan');
 var jws               = require('jws');
 var xtend             = require('xtend');
 
-module.exports = function (jwtString, secretOrPublicKey, options, callback) {
+module.exports = function (jwtString, secretOrPublicKey, tokenProfile, callback) {
+  options = tokenProfile.getStandardClaims();
   if ((typeof options === 'function') && !callback) {
     callback = options;
     options = {};
@@ -129,15 +130,9 @@ module.exports = function (jwtString, secretOrPublicKey, options, callback) {
 
   Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
     var claim = tokenProfile.options_to_payload[key];
-    if (typeof options[key] !== 'undefined') {
-      if (typeof payload[claim] !== 'undefined') {
-        return failure(new Error('Bad "options.' + key + '" option. The payload already has an "' + claim + '" property.'));
-      }
-
-      if (options[key]) {
-        if (payload[claim] = options[key]) {
-          return done(new JsonWebTokenError('jwt option invalid. expected: ' + options[key]));
-        }
+    if (options[key]) {
+      if (payload[claim] != options[key]) {
+        return done(new JsonWebTokenError('jwt option invalid. expected: ' + options[key]));
       }
     }
   });
@@ -172,6 +167,8 @@ module.exports = function (jwtString, secretOrPublicKey, options, callback) {
       return done(new JsonWebTokenError('jwt subject invalid. expected: ' + options.subject));
     }
   }*/
+
+  
 
   if (options.jwtid) {
     if (payload.jti !== options.jwtid) {

@@ -9,23 +9,20 @@ module.exports = {
 
 var fs = require('fs');
 var FacebookToken = require('./facebookToken');
-// sign with default (HMAC SHA256)
 var jwt = require('jsonwebtoken');
-
 var Message = require('./message');
 
 /* var messageFactory = new Message();
-var jwtObj = messageFactory.format(messageFactory.SERIALIZATION_TYPE.JWT);
-jwtObj.sign({ foo: 'bar' }, "shhh", {audience : 'aud', issuer: 'urn:foo', }) */ 
+var jwtObj = messageFactory.format(messageFactory.SERIALIZATION_TYPE.JWT); */ 
 
-//backdate a jwt 30 seconds
+//Create a facebook token and add non standard claims
 var fbToken = new FacebookToken('bacon','accounts.fake.com', 123);
 fbToken.addNonStandardClaims({"gender" : "female"});
+
+// Sign usign facebook token
 var tokentest = jwt.sign(fbToken, 'shhhhh');
 
-
-console.log("***** Verify token with no change ****")
-// verify issuer
+// Verify using facebook token
 var modifiedFbToken = new FacebookToken('bacon','accounts.fake.com', 123);
 
 jwt.verify(tokentest, 'shhhhh', modifiedFbToken, function(err, decoded) {

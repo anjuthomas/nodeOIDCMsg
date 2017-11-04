@@ -1,6 +1,7 @@
 'use strict';
 var jwt = require('jsonwebtoken');
 
+
 function Message(){
 };
 

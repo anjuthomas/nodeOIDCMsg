@@ -18,6 +18,7 @@ var jwtObj = messageFactory.format(messageFactory.SERIALIZATION_TYPE.JWT); */
 //Create a facebook token and add non standard claims
 var fbToken = new FacebookToken('bacon','accounts.fake.com', 123);
 fbToken.addNonStandardClaims({"gender" : "female"});
+fbToken.setNoneAlgorithm(true);
 
 // Sign usign facebook token
 var tokentest = jwt.sign(fbToken, 'shhhhh');

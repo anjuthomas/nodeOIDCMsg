@@ -37,12 +37,12 @@ FacebookToken.prototype.validateRequiredFields = function(){
     }else if (this.email == undefined){
         throw new Error("You are missing the required parameter : email");        
     }
-}
+};
 
 /* Distinguishes non standard claims from standard claims */ 
 FacebookToken.prototype.addNonStandardClaims = function(nonStandardClaims){
     FacebookToken.prototype.non_standard_claims = nonStandardClaims;
-}
+};
 
 /* Called by the verify and sign functions to dynamically generate and check payload */ 
 FacebookToken.prototype.getStandardClaims = function(){
@@ -52,6 +52,15 @@ FacebookToken.prototype.getStandardClaims = function(){
 
 FacebookToken.prototype.getNonStandardClaims = function(nonStandardClaims){
     return FacebookToken.prototype.non_standard_claims;
-}
+};
+
+/* User explicitly wants to set None Algorithm attribute */
+FacebookToken.prototype.setNoneAlgorithm = function(boolVal){
+    FacebookToken.prototype.NoneAlgorithm = true;
+};
+
+FacebookToken.prototype.getNone = function(boolVal){
+    return FacebookToken.prototype.NoneAlgorithm;
+};
 
 module.exports = FacebookToken;

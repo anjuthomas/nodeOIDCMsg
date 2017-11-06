@@ -56,7 +56,7 @@ FacebookToken.prototype.getNonStandardClaims = function(nonStandardClaims){
 
 /* User explicitly wants to set None Algorithm attribute */
 FacebookToken.prototype.setNoneAlgorithm = function(boolVal){
-    FacebookToken.prototype.NoneAlgorithm = true;
+    FacebookToken.prototype.NoneAlgorithm = boolVal;
 };
 
 FacebookToken.prototype.getNone = function(boolVal){

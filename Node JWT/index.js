@@ -9,22 +9,35 @@ module.exports = {
 
 var fs = require('fs');
 var FacebookToken = require('./facebookToken');
+// sign with default (HMAC SHA256)
 var jwt = require('jsonwebtoken');
 var Message = require('./message');
+var jws = require('jws');
+var decode = require('./decode');
 
 /* var messageFactory = new Message();
-var jwtObj = messageFactory.format(messageFactory.SERIALIZATION_TYPE.JWT); */ 
+var jwtObj = messageFactory.format(messageFactory.SERIALIZATION_TYPE.JWT);
+jwtObj.sign({ foo: 'bar' }, "shhh", {audience : 'aud', issuer: 'urn:foo', }) */ 
 
-//Create a facebook token and add non standard claims
+//Create a token profile and sign the jwt
 var fbToken = new FacebookToken('bacon','accounts.fake.com', 123);
 fbToken.addNonStandardClaims({"gender" : "female"});
-fbToken.setNoneAlgorithm(true);
-
-// Sign usign facebook token
 var tokentest = jwt.sign(fbToken, 'shhhhh');
 
-// Verify using facebook token
-var modifiedFbToken = new FacebookToken('bacon','accounts.fake.com', 123);
+var modifiedFbToken = new FacebookToken('bacon','accounts.fakes.com', 123);
+
+// Decode a JWT using a modified token and it should verify
+var decodedToken;
+decodedToken = decode(tokentest,'shhhhh', modifiedFbToken, function(err, decoded) {
+  if (err){
+    console.log(err);
+  }else{
+    console.log("No change found. Verified.")
+  }
+});
+  
+// verify issuer
+/*var modifiedFbToken = new FacebookToken('bacon','accounts.fake.com', 123);
 
 jwt.verify(tokentest, 'shhhhh', modifiedFbToken, function(err, decoded) {
   if (err){
@@ -32,6 +45,4 @@ jwt.verify(tokentest, 'shhhhh', modifiedFbToken, function(err, decoded) {
   }else{
     console.log("No change found. Verified.")
   }
-});
-
-
+});*/

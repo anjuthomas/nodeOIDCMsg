@@ -6,9 +6,9 @@ var timespan          = require('./lib/timespan');
 var jws               = require('jws');
 var xtend             = require('xtend');
 
-module.exports = function (jwtSig, secretOrPublicKey, tokenProfile, callback, options) {
+module.exports = function (jwtSig, secretOrPublicKey, tokenProfile, options, callback) {
   //options = options || {};
-
+  var otherOptions = options;
   options = tokenProfile.getStandardClaims();
   if ((typeof options === 'function') && !callback) {
     callback = options;
@@ -32,7 +32,7 @@ module.exports = function (jwtSig, secretOrPublicKey, tokenProfile, callback, op
       };
     }
 
-  var decoded = jws.decode(jwtSig, secretOrPublicKey, tokenProfile, callback, options);
+  var decoded = jws.decode(jwtSig, secretOrPublicKey, tokenProfile, callback, otherOptions);
   if (!decoded) { return null; }
   var payload = decoded.payload;
 

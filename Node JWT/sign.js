@@ -56,11 +56,13 @@ function validatePayload(payload) {
   return validate(registered_claims_schema, true, payload, 'payload');
 }
 
-/*var options_to_payload = {
+
+var options_to_payload = {
   'audience': 'aud',
   'issuer': 'iss',
   'subject': 'sub',
-  'jwtid': 'jti'
+  'jwtid': 'jti', 
+  'newclaim': 'newclaim'
 };
 
 var options_for_objects = [
@@ -71,11 +73,10 @@ var options_for_objects = [
   'issuer',
   'subject',
   'jwtid',
-];*/
+  'newclaim',
+];
 
-module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) {
-  /* fetch standard claims from token */ 
-  var payload = tokenProfile.getStandardClaims();
+module.exports = function (payload, secretOrPrivateKey, options, callback) {
   if (typeof options === 'function') {
     callback = options;
     options = {};
@@ -114,6 +115,7 @@ module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) 
     }
     payload = xtend(payload);
   } else {
+    // make options for object more dynamic
     var invalid_options = options_for_objects.filter(function (opt) {
       return typeof options[opt] !== 'undefined';
     });
@@ -160,9 +162,9 @@ module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) 
     }
   }
 
-  /* Dynamically generate payload using token profile claims */
-  Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
-    var claim = tokenProfile.options_to_payload[key];
+  // Make options to payload dynamic based on which token the user chooses
+  Object.keys(options_to_payload).forEach(function (key) {
+    var claim = options_to_payload[key];
     if (typeof options[key] !== 'undefined') {
       if (typeof payload[claim] !== 'undefined') {
         return failure(new Error('Bad "options.' + key + '" option. The payload already has an "' + claim + '" property.'));

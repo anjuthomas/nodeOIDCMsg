@@ -74,14 +74,16 @@ var options_for_objects = [
 ];*/
 
 module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) {
-  var payload = tokenProfile.getStandardClaims();
+  //var payload = tokenProfile.getStandardClaims();
+
+  var payload = Object.assign({}, tokenProfile.getStandardClaims(), tokenProfile.getNonStandardClaims());
+  
   if (typeof options === 'function') {
     callback = options;
     options = {};
   } else {
     options = options || {};
   }
-
   if (options)
   var isObjectPayload = typeof payload === 'object' &&
                         !Buffer.isBuffer(payload);
@@ -166,6 +168,16 @@ module.exports = function (tokenProfile, secretOrPrivateKey, options, callback) 
 
   Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
     var claim = tokenProfile.options_to_payload[key];
+    if (typeof options[key] !== 'undefined') {
+      if (typeof payload[claim] !== 'undefined') {
+        return failure(new Error('Bad "options.' + key + '" option. The payload already has an "' + claim + '" property.'));
+      }
+      payload[claim] = options[key];
+    }
+  });
+
+  Object.keys(tokenProfile.knownNonStandardClaims).forEach(function (key) {
+    var claim = tokenProfile.knownNonStandardClaims[key];
     if (typeof options[key] !== 'undefined') {
       if (typeof payload[claim] !== 'undefined') {
         return failure(new Error('Bad "options.' + key + '" option. The payload already has an "' + claim + '" property.'));

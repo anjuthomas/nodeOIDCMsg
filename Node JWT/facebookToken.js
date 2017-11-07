@@ -31,6 +31,12 @@ FacebookToken.prototype.options_for_objects = [
     'jwtid',
   ];
 
+  FacebookToken.prototype.knownNonStandardClaims = {
+    'exp' : 'exp',
+    'nbf' : 'nbf',
+    'iat' : 'iat',
+  };
+
 FacebookToken.prototype.validateRequiredFields = function(){
     if (this.name == undefined){
         throw new Error("You are missing a required parameter : name");

@@ -9,7 +9,7 @@ var xtend             = require('xtend');
 module.exports = function (jwtSig, secretOrPublicKey, tokenProfile, options, callback) {
   //options = options || {};
   var otherOptions = options;
-  options = tokenProfile.getStandardClaims();
+  options = Object.assign({}, tokenProfile.getStandardClaims(), tokenProfile.getNonStandardClaims());
   if ((typeof options === 'function') && !callback) {
     callback = options;
     options = {};
@@ -66,6 +66,15 @@ module.exports = function (jwtSig, secretOrPublicKey, tokenProfile, options, cal
 
   Object.keys(tokenProfile.options_to_payload).forEach(function (key) {
     var claim = tokenProfile.options_to_payload[key];
+    if (options[key]) {
+      if (payload[claim] != options[key]) {
+        return done(new JsonWebTokenError('jwt option invalid. expected: ' + options[key]));
+      }
+    }
+  });
+
+  Object.keys(tokenProfile.knownNonStandardClaims).forEach(function (key) {
+    var claim = tokenProfile.knownNonStandardClaims[key];
     if (options[key]) {
       if (payload[claim] != options[key]) {
         return done(new JsonWebTokenError('jwt option invalid. expected: ' + options[key]));

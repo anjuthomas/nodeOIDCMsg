@@ -4,8 +4,9 @@ var path = require('path');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
-var BasicIdToken = require('../basicIdToken');
-var decode = require('../decode');
+var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
+var decode = require('../node_modules/jsonwebtoken/decode');
+var jwt = require('../node_modules/jsonwebtoken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));
@@ -33,32 +34,47 @@ describe('Asymmetric Algorithms', function(){
       var pub = algorithms[algorithm].pub_key;
       var priv = algorithms[algorithm].priv_key;
 
-      describe('when signing a token with none algorithm', function () {
+      describe('when signing a token with standard claim', function () {
         var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
         basicIdToken.addNonStandardClaims({"jti" : "test"});
         basicIdToken.setNoneAlgorithm(true);
-        var tokentest = jwt.sign(basicIdToken, 'shhhhh', {algorithm : 'none'});
+        var signedJWT = basicIdToken.toJWT('shhhh');
 
-        it('should check if explicitly set', function (done) {
-          var modifiedBasicIdToken = new BasicIdToken('issuer','subject', 'audience');
-          modifiedBasicIdToken.addNonStandardClaims({"jti" : "test"});
-          var decodedToken = decode(tokentest,'shhhhh', modifiedBasicIdToken, {algorithms: ['none']}, function(err, decoded) {
-            console.log(decoded)
-            console.log(err.message);
-            assert.isNotNull(decoded);
+        it('should check standard claim', function (done) {
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+          }catch(err){
+            console.log(done);
+            assert.isNotNull(decodedPayload);
             assert.isNull(err);
-          });
+          }
           done();
         });
+
+        
+        it('should throw when invalid standard claim', function (done) {
+          var verificationToken = new BasicIdToken('wrong-issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+          }catch(err){
+            assert.isNotNull(err);
+            assert.equal(err.name, 'JsonWebTokenError');
+            done();
+          }
+        });
       });      
-      /*
+
+      
       describe('when signing a token without standard claim', function () {
         it('should throw error and require standard claim', function (done) {
           try{
             var basicIdToken = new BasicIdToken('issuer','subject');
             basicIdToken.addNonStandardClaims({"jti" : "test"});
             basicIdToken.setNoneAlgorithm(true);
-            var tokentest = jwt.sign(basicIdToken, 'shhhhh');
+            var signedJWT = basicIdToken.toJWT('shhhh');
           }catch(err){
             assert.isNotNull(err);
             assert.instanceOf(err, Error);
@@ -71,31 +87,33 @@ describe('Asymmetric Algorithms', function(){
         var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
         basicIdToken.addNonStandardClaims({"jti" : "test"});
         basicIdToken.setNoneAlgorithm(true);
-        var tokentest = jwt.sign(basicIdToken, 'shhhhh');
+        var signedJWT = basicIdToken.toJWT('shhhh');
 
         it('should check known non standard claim', function (done) {
-          var modifiedBasicIdToken = new BasicIdToken('issuer','subject', 'audience');
-          modifiedBasicIdToken.addNonStandardClaims({"jti" : "test"});
-          var decodedToken = decode(tokentest,'shhhhh', modifiedBasicIdToken, function(err, decoded) {
-            assert.isNotNull(decoded);
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+            done();
+          }catch(err){
+            assert.isNotNull(decodedPayload);
             assert.isNull(err);
-          });
-          done();
-        });
+            done();
+          }
 
         it('should throw when invalid known non standard claim', function (done) {
-          var modifiedBasicIdToken = new BasicIdToken('issuer','subject', 'audience');
-          modifiedBasicIdToken.addNonStandardClaims({"jti" : "testing"});
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "wrong-val"});
           try{
-            var decodedToken = decode(tokentest,'shhhhh', modifiedBasicIdToken, function(err, decoded) {});
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
           }catch(err){
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
+            assert.isNotNull(decoded);
+            assert.isNull(err);
             done();
           }
         });
-      });*/
+      });
     });
   });
+});
 });

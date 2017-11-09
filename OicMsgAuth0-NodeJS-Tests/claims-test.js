@@ -1,10 +1,12 @@
 var jwt = require('../index');
 var fs = require('fs');
 var path = require('path');
-
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
+var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
+var decode = require('../node_modules/jsonwebtoken/decode');
+var jwt = require('../node_modules/jsonwebtoken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));
@@ -32,302 +34,86 @@ describe('Asymmetric Algorithms', function(){
       var pub = algorithms[algorithm].pub_key;
       var priv = algorithms[algorithm].priv_key;
 
-      describe('when signing a token with audience', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, audience: 'urn:foo' });
+      describe('when signing a token with standard claim', function () {
+        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
+        basicIdToken.addNonStandardClaims({"jti" : "test"});
+        basicIdToken.setNoneAlgorithm(true);
+        var signedJWT = basicIdToken.toJWT('shhhh');
 
-        it('should check audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:foo' }, function (err, decoded) {
-            assert.isNotNull(decoded);
+        it('should check standard claim', function (done) {
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+          }catch(err){
+            console.log(done);
+            assert.isNotNull(decodedPayload);
             assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should check audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:foo', 'urn:other'] }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should throw when invalid audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:wrong' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('should throw when invalid audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:wrong', 'urn:morewrong', /urn:bar/] }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-      });
-
-      describe('when signing a token with array audience', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, audience: ['urn:foo', 'urn:bar'] });
-
-        it('should check audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:foo' }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should check other audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:bar' }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should check audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:foo', 'urn:other'] }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should throw when invalid audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:wrong' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('should throw when invalid audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:wrong', 'urn:morewrong'] }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('should throw when invalid audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:wrong', 'urn:morewrong', /urn:alsowrong/] }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-      });
-
-      describe('when signing a token without audience', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm });
-
-        it('should check audience', function (done) {
-          jwt.verify(token, pub, { audience: 'urn:wrong' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('should check audience using RegExp', function (done) {
-          jwt.verify(token, pub, { audience: /urn:wrong/ }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('should check audience in array', function (done) {
-          jwt.verify(token, pub, { audience: ['urn:wrong', 'urn:morewrong', /urn:alsowrong/] }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-
-        it('does not complain when standard claim is not provided while signing or verifying', function (done) {
-          jwt.verify(token, pub, {}, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-      });
-
-      describe('when signing a token with issuer', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, issuer: 'urn:foo' });
-
-        it('should check issuer', function (done) {
-          jwt.verify(token, pub, { issuer: 'urn:foo' }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should check the issuer when providing a list of valid issuers', function (done) {
-          jwt.verify(token, pub, { issuer: ['urn:foo', 'urn:bar'] }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should throw when invalid issuer', function (done) {
-          jwt.verify(token, pub, { issuer: 'urn:wrong' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-      });
-
-      describe('when signing a token without issuer', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm });
-
-        it('should check issuer', function (done) {
-          jwt.verify(token, pub, { issuer: 'urn:foo' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-      });
-
-      describe('when signing a token with subject', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, subject: 'subject' });
-
-        it('should check subject', function (done) {
-          jwt.verify(token, pub, { subject: 'subject' }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should throw when invalid subject', function (done) {
-          jwt.verify(token, pub, { subject: 'wrongSubject' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-      });
-
-      describe('when signing a token without subject', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm });
-
-        it('should check subject', function (done) {
-          jwt.verify(token, pub, { subject: 'subject' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-      });
-
-      describe('when signing a token with jwt id', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, jwtid: 'jwtid' });
-
-        it('should check jwt id', function (done) {
-          jwt.verify(token, pub, { jwtid: 'jwtid' }, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
-        });
-
-        it('should throw when invalid jwt id', function (done) {
-          jwt.verify(token, pub, { jwtid: 'wrongJwtid' }, function (err, decoded) {
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            assert.instanceOf(err, jwt.JsonWebTokenError);
-            done();
-          });
-        });
-      });
-
-       /* Does not validate signature by default */
-       describe('when signing a token with algorithm none', function () {
-        var token = jwt.sign({ foo: 'bar' }, null, { algorithm: 'none' });
-        
-        it('should throw error without verifying', function (done) {
-          var payload = jwt.decode(token);
-          assert.isNotNull(payload);
+          }
           done();
         });
-      });
 
-
-      /** Non standard claims not supported */
-      describe('when signing a token with a non standard claim', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, nonstandardClaim: 'urn:foo' });
-
-        it('should throw when non standard claim provided', function (done) {
-          jwt.verify(token, pub, { nonstandardClaim: 'urn:foo' }, function (err, decoded) {
-            assert.isUndefined(decoded);
+        
+        it('should throw when invalid standard claim', function (done) {
+          var verificationToken = new BasicIdToken('wrong-issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+          }catch(err){
             assert.isNotNull(err);
             assert.equal(err.name, 'JsonWebTokenError');
             done();
-          });
+          }
+        });
+      });      
+
+      
+      describe('when signing a token without standard claim', function () {
+        it('should throw error and require standard claim', function (done) {
+          try{
+            var basicIdToken = new BasicIdToken('issuer','subject');
+            basicIdToken.addNonStandardClaims({"jti" : "test"});
+            basicIdToken.setNoneAlgorithm(true);
+            var signedJWT = basicIdToken.toJWT('shhhh');
+          }catch(err){
+            assert.isNotNull(err);
+            assert.instanceOf(err, Error);
+            done();
+          }
         });
       });
 
-      /* Standard claims not required */ 
-      describe('when signing a token without a standard claim', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm});
+      describe('when signing a token with a known non standard claim', function () {
+        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
+        basicIdToken.addNonStandardClaims({"jti" : "test"});
+        basicIdToken.setNoneAlgorithm(true);
+        var signedJWT = basicIdToken.toJWT('shhhh');
 
-        it('should throw standard claim is required error', function (done) {
-          jwt.verify(token, pub, {}, function (err, decoded) {
+        it('should check known non standard claim', function (done) {
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "test"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+            done();
+          }catch(err){
+            assert.isNotNull(decodedPayload);
+            assert.isNull(err);
+            done();
+          }
+
+        it('should throw when invalid known non standard claim', function (done) {
+          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
+          verificationToken.addNonStandardClaims({"jti" : "wrong-val"});
+          try{
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+          }catch(err){
             assert.isNotNull(decoded);
             assert.isNull(err);
             done();
-          });
-        });
-      });
-
-
-      /* Signature not checked by default */ 
-      describe('when signing a token without a standard claim', function () {
-        var token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm});
-
-        it('should throw standard claim is required error', function (done) {
-          jwt.verify(token, pub, {}, function (err, decoded) {
-            assert.isNotNull(decoded);
-            assert.isNull(err);
-            done();
-          });
+          }
         });
       });
     });
   });
+});
 });

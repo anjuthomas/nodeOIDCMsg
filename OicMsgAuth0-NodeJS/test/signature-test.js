@@ -1,90 +1,75 @@
 var jwt = require('../index');
-var fs = require('fs');
-var path = require('path');
+
 var expect = require('chai').expect;
 var assert = require('chai').assert;
-var ms = require('ms');
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
 
-function loadKey(filename) {
-  return fs.readFileSync(path.join(__dirname, filename));
-}
+describe('HS256', function() {
 
-describe('Asymmetric Algorithms', function(){
+  describe('when signing a token', function() {
+    var secret = 'shhhhhh';
 
-    describe('when signing a token with incorrect secret', function () {
-        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
-        basicIdToken.addNonStandardClaims({"jti" : "test"});
-        basicIdToken.setNoneAlgorithm(true);
-        var signedJWT = basicIdToken.toJWT('wrong-secret');
-        
-        it('should throw invalid signature error', function () {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
-          try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'secret');
-          }catch(err){
-            console.log(err)            
-            assert.isNotNull(err);
-            
-          }
-        });
-      });      
+    var token = jwt.sign({ foo: 'bar' }, secret, { algorithm: 'HS256' });
 
-      describe('when signing a token with empty signature', function () {
-        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
-        basicIdToken.addNonStandardClaims({"jti" : "test"});
-        basicIdToken.setNoneAlgorithm(true);
-        var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'none'});
-        
+    it('should be able to validate without options', function(done) {
+      var callback = function(err, decoded) {
+        assert.ok(decoded.foo);
+        assert.equal('bar', decoded.foo);
+        done();
+      };
+      callback.issuer = "shouldn't affect";
+      jwt.verify(token, secret, callback );
+    });
 
-        it('should throw with secret and token not signed', function (done) {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
-          try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh', {algorithms: ['none']});
-          }catch(err){
-            console.log(err)            
-            assert.isNotNull(err);
-          }
-          done();
-        });
-      });      
-      
-      describe('when signing a token with empty signature', function () {
-        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
-        basicIdToken.addNonStandardClaims({"jti" : "test"});
-        basicIdToken.setNoneAlgorithm(true);
-        var signedJWT = basicIdToken.toJWT(null, {algorithm : 'none'});
-        
+    it('should validate with secret', function(done) {
+      jwt.verify(token, secret, function(err, decoded) {
+        assert.ok(decoded.foo);
+        assert.equal('bar', decoded.foo);
+        done();
+      });
+    });
 
-        it('should throw with falsy secret and token not signed', function (done) {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
-          verificationToken.setNoneAlgorithm(true);
-          
-          try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh', {algorithms: ['none']});
-          }catch(err){
-            console.log(err)
-            assert.isNotNull(err);
-          }
-          done();
-        });
+    it('should throw with invalid secret', function(done) {
+      jwt.verify(token, 'invalid secret', function(err, decoded) {
+        assert.isUndefined(decoded);
+        assert.isNotNull(err);
+        done();
+      });
+    });
 
-        it('should work with no secret and token not signed', function (done) {
-            var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-            verificationToken.addNonStandardClaims({"jti" : "test"});
-            verificationToken.setNoneAlgorithm(true);
-            try{
-              var decodedPayload = verificationToken.fromJWT(signedJWT, null, {algorithms: ['none']});
-            }catch(err){
-              console.log(err)                
-              assert.isNull(err);
-            }
-            done();
-          });
-      });  
+    it('should throw with secret and token not signed', function(done) {
+      var signed = jwt.sign({ foo: 'bar' }, secret, { algorithm: 'none' });
+      var unsigned = signed.split('.')[0] + '.' + signed.split('.')[1] + '.';
+      jwt.verify(unsigned, 'secret', function(err, decoded) {
+        assert.isUndefined(decoded);
+        assert.isNotNull(err);
+        done();
+      });
+    });
+
+    it('should work with falsy secret and token not signed', function(done) {
+      var signed = jwt.sign({ foo: 'bar' }, null, { algorithm: 'none' });
+      var unsigned = signed.split('.')[0] + '.' + signed.split('.')[1] + '.';
+      jwt.verify(unsigned, 'secret', function(err, decoded) {
+        assert.isUndefined(decoded);
+        assert.isNotNull(err);
+        done();
+      });
+    });
+
+    it('should throw when verifying null', function(done) {
+      jwt.verify(null, 'secret', function(err, decoded) {
+        assert.isUndefined(decoded);
+        assert.isNotNull(err);
+        done();
+      });
+    });
+
+
+    it('should default to HS256 algorithm when no options are passed', function() {
+      var token = jwt.sign({ foo: 'bar' }, secret);
+      var verifiedToken = jwt.verify(token, secret);
+      assert.ok(verifiedToken.foo);
+      assert.equal('bar', verifiedToken.foo);
+    });
+  });
 });

@@ -11,7 +11,7 @@ var jwt = require('../node_modules/jsonwebtoken');
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));
 }
-
+/*
 describe('Asymmetric Algorithms', function(){
 
       describe('when signing a token with none algorithm', function () {
@@ -20,7 +20,7 @@ describe('Asymmetric Algorithms', function(){
         basicIdToken.setNoneAlgorithm(true);
         var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'none'});
         
-        /*
+        
         it('should check if explicitly set', function (done) {
           var verificationToken = new BasicIdToken('issuer','subject', 'audience');
           verificationToken.addNonStandardClaims({"jti" : "test"});
@@ -31,7 +31,7 @@ describe('Asymmetric Algorithms', function(){
             assert.isNull(err);
           }
           done();
-        });*/
+        });
       });      
       
       describe('when signing a token with none algorithm', function () {
@@ -50,4 +50,4 @@ describe('Asymmetric Algorithms', function(){
     
     
   
-});
+});*/

@@ -31,22 +31,22 @@ describe('Asymmetric Algorithms', function(){
 
   Object.keys(algorithms).forEach(function (algorithm) {
     describe(algorithm, function () {
+      var clockTimestamp = 1000000000;
+      
       var pub = algorithms[algorithm].pub_key;
       var priv = algorithms[algorithm].priv_key;
 
       describe('when signing a token with standard claim', function () {
-        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
-        basicIdToken.addNonStandardClaims({"jti" : "test"});
+        var basicIdToken = new BasicIdToken('issuer','subject', 'audience', clockTimestamp, clockTimestamp + 2, clockTimestamp + 3, "jti");
+        basicIdToken.addNonStandardClaims({"userId" : "test"});
         basicIdToken.setNoneAlgorithm(true);
         var signedJWT = basicIdToken.toJWT('shhhh');
 
         it('should check standard claim', function (done) {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
+        
           try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+            var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", "jti": "jti"});
           }catch(err){
-            console.log(done);
             assert.isNotNull(decodedPayload);
             assert.isNull(err);
           }
@@ -55,11 +55,10 @@ describe('Asymmetric Algorithms', function(){
 
         
         it('should throw when invalid standard claim', function (done) {
-          var verificationToken = new BasicIdToken('wrong-issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
           try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+            var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "wrong-issuer", "sub": "subject", "aud" : "audience", "jti": "jti"});
           }catch(err){
+
             assert.isNotNull(err);
             assert.equal(err.name, 'JsonWebTokenError');
             done();
@@ -68,6 +67,7 @@ describe('Asymmetric Algorithms', function(){
       });      
 
       
+  
       describe('when signing a token without standard claim', function () {
         it('should throw error and require standard claim', function (done) {
           try{
@@ -84,28 +84,27 @@ describe('Asymmetric Algorithms', function(){
       });
 
       describe('when signing a token with a known non standard claim', function () {
-        var basicIdToken = new BasicIdToken('issuer','subject', 'audience');
-        basicIdToken.addNonStandardClaims({"jti" : "test"});
+        var basicIdToken = new BasicIdToken('issuer','subject', 'audience', clockTimestamp, clockTimestamp + 2, clockTimestamp + 3, "jti");
+        basicIdToken.addNonStandardClaims({"knownNonStandardClaim" : "test"});
         basicIdToken.setNoneAlgorithm(true);
         var signedJWT = basicIdToken.toJWT('shhhh');
 
         it('should check known non standard claim', function (done) {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "test"});
           try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
-            done();
-          }catch(err){
+            var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", "jti": "jti", "knownNonStandardClaim" : "test"});
             assert.isNotNull(decodedPayload);
+            done();            
+          }catch(err){
+            console.log("________________")
+            console.log(err)
             assert.isNull(err);
             done();
           }
 
         it('should throw when invalid known non standard claim', function (done) {
-          var verificationToken = new BasicIdToken('issuer','subject', 'audience');
-          verificationToken.addNonStandardClaims({"jti" : "wrong-val"});
+         
           try{
-            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh');
+            var decodedPayload = verificationToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", "jti": "jti", "knownNonStandardClaim" : "wrong-val"});
           }catch(err){
             assert.isNotNull(decoded);
             assert.isNull(err);
@@ -116,4 +115,5 @@ describe('Asymmetric Algorithms', function(){
     });
   });
 });
-});
+}); 
+

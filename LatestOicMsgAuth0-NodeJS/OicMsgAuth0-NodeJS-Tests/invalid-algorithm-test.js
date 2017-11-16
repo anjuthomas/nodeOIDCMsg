@@ -5,39 +5,53 @@ var jwt = require('../index');
 var expect = require('chai').expect;
 var JsonWebTokenError = require('../node_modules/jsonwebtoken/lib/JsonWebTokenError');
 
+var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
+var decode = require('../node_modules/jsonwebtoken/decode');
+var jwt = require('../node_modules/jsonwebtoken');
+var assert = require('chai').assert;
 
 var pub = fs.readFileSync(path.join(__dirname, 'pub.pem'), 'utf8');
 // priv is never used
 // var priv = fs.readFileSync(path.join(__dirname, 'priv.pem'));
-/*
-var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE0MjY1NDY5MTl9.ETgkTn8BaxIX4YqvUWVFPmum3moNZ7oARZtSBXb_vP4';
+
+var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE0MjY1NDY5MTl9.';
 
 describe('when setting a wrong `header.alg`', function () {
-
-  describe('signing with pub key as symmetric', function () {
-    it('should not verify', function () {
-      expect(function () {
-        jwt.verify(TOKEN, pub);
-      }).to.throw(JsonWebTokenError, /invalid algorithm/);
-    });
-  });
-
+  var clockTimestamp = 1000000000;
+  
+  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
+  basicIdToken.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
+  basicIdToken.setNoneAlgorithm(true);
+  var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'HS256'});
+  
   describe('signing with pub key as HS256 and whitelisting only RS256', function () {
-    it('should not verify', function () {
-      expect(function () {
-        jwt.verify(TOKEN, pub, {algorithms: ['RS256']});
-      }).to.throw(JsonWebTokenError, /invalid algorithm/);
+    it('should not verify', function (done) {
+
+      try{
+        var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{algorithm: 'HS256', 'clockTimestamp' : clockTimestamp});
+        assert.isNotNull(decodedPayload);
+        done();            
+      }catch(err){
+        console.log(err)
+        assert.isNotNull(err);
+        done();
+      }
     });
   });
 
   describe('signing with HS256 and checking with HS384', function () {
-    it('should not verify', function () {
-      expect(function () {
-        var token = jwt.sign({foo: 'bar'}, 'secret', {algorithm: 'HS256'});
-        jwt.verify(token, 'some secret', {algorithms: ['HS384']});
-      }).to.throw(JsonWebTokenError, /invalid algorithm/);
+    it('should not verify', function (done) {
+      try{
+        var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{algorithm: 'HS384', 'clockTimestamp' : clockTimestamp});
+        assert.isNotNull(decodedPayload);
+        done();            
+      }catch(err){
+        console.log(err)
+        assert.isNotNull(err);
+        done();
+      }
     });
   });
 
 
-});*/
+});

@@ -57,10 +57,7 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = basicIdToken2.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "wrong-audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
-            console.log("_____________________________________")            
-            console.log(err);
             assert.isNotNull(err);
             done();
           }

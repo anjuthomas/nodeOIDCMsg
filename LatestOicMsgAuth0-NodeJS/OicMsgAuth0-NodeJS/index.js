@@ -18,24 +18,20 @@
 
  
   var standardClaims = googleIdToken.getStandardClaims();  
-  console.log(standardClaims);
 
  var nonStandardClaims = googleIdToken.getNonStandardClaims();  
- console.log(nonStandardClaims);
 
 
  var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
  basicIdToken2.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
  basicIdToken2.setNoneAlgorithm(true);        
  var nonStandardClaims = basicIdToken2.getNonStandardClaims();  
- console.log(nonStandardClaims);
 
  var googleIdToken = new GoogleIdToken('name', 'email@google.com', '/pathToPic', 'issuer','subject', clockTimestamp);
  googleIdToken.setNoneAlgorithm(true);
  var signedJWT = googleIdToken.toJWT('shhhh');
 
  var decodedPayload = googleIdToken.fromJWT(signedJWT, 'shhhh', {"name":"name", "email": "email@google.com", "picture":"/pathToPic", "iss" : "issuer", "sub": "subject", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
- console.log(decodedPayload);
   /*
   var clockTimestamp = 1000000000; 
   var BasicIdToken = require('./node_modules/tokenProfiles/basicIdToken');  

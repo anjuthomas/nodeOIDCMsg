@@ -14,7 +14,7 @@ var pub = fs.readFileSync(path.join(__dirname, 'pub.pem'), 'utf8');
 // priv is never used
 // var priv = fs.readFileSync(path.join(__dirname, 'priv.pem'));
 
-var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE0MjY1NDY5MTl9.ETgkTn8BaxIX4YqvUWVFPmum3moNZ7oARZtSBXb_vP4';
+var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJpYXQiOjE0MjY1NDY5MTl9.';
 
 describe('when setting a wrong `header.alg`', function () {
   var clockTimestamp = 1000000000;

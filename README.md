@@ -25,7 +25,7 @@ The format supported are:
 
 ## How to create a token profile and add standard claims 
 
-A token profile is a security token that enables identity and security information to be shared across security domains. Token Profiles folder contains the different types of token profile classes including the Basic ID Token class. Each token profile can be instantiated with its standard claims. 
+A token profile is a security token that enables identity and security information to be shared across security domains. Token Profiles folder contains the different types of token profile classes including the Basic ID Token class. A token profile contains the token properties, standard, non standard and verification claims Each token profile can be instantiated with its standard claims. 
 
 If any of the standard claims are not specified such as the iss while creating a token profile, it will throw the following error for example : “You are missing a required parameter : iss”. 
 
@@ -131,7 +131,7 @@ If the none algorithm property above is not set, the following error will be thr
 
 ## How to serialize a JWT type using a token profile
 
-To sign a JWT with the Basic ID Token, call the token’s toJWT method with the secret and any additional options that need to be passed like “algorithm”. 
+To sign a JWT with the Basic ID Token, call the token’s toJWT method with the secret and any additional options that need to be passed like “algorithm”. A secretOrPublicKey is a string or buffer containing either the secret for HMAC algorithms, or the PEM encoded public key for RSA and ECDSA
 
 ```
 var signedJWT = basicIdToken.toJWT('shhhh');
@@ -139,10 +139,7 @@ var signedJWT = basicIdToken.toJWT('shhhh');
 
 
 ## Other options for serialization
-
-```
- var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'HS256'});
-```
+Options are other inputs or additional information that might be needed and are not part of the payload, for ex : 'algorithm'. Other options such as follows can be passed as in as the fourth parameter to token profile’s fromJWT method.
 
   * algorithm (default: HS256)
   * expiresIn: expressed in seconds or a string describing a time span zeit/ms. Eg: 60, "2 days", "10h", "7d"
@@ -154,6 +151,10 @@ var signedJWT = basicIdToken.toJWT('shhhh');
   * noTimestamp
   * header
   * keyid
+  
+ ```
+ var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'HS256'});
+```
 
 If payload is not a buffer or a string, it will be coerced into a string using JSON.stringify.
 There are no default values for expiresIn, notBefore, audience, subject, issuer. These claims can also be provided in the payload directly with exp, nbf, aud, sub and iss respectively, but you can't include in both places.
@@ -180,7 +181,7 @@ exp/ nbf -> clockTolerance : number of seconds to tolerate when checking the nbf
 
 ## Other options for deserialization 
 
-Other options such as follows can be passed as in as the fourth parameter to token profile’s fromJWT method.
+Options are other inputs or additional information that might be needed and are not part of the payload, for ex : 'algorithm'. Other options such as follows can be passed as in as the fourth parameter to token profile’s fromJWT method.
 
 ### Options
 * algorithms: List of strings with the names of the allowed algorithms. For instance, ["HS256", "HS384"].

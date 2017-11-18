@@ -204,6 +204,8 @@ var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer",
 
 ## How to serialize and deserialize other types using a token profile
 
+The following token profile methods can be used as follows to serialize and deserialize other types. 
+
 * basicIdToken.toJSON 
 * basicIdToken.fromJSON
 * basicIdToken.toUrlEncoded 

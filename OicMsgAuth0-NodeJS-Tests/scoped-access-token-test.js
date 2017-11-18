@@ -4,9 +4,7 @@ var path = require('path');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
-var ScopedAccessToken = require('../node_modules/tokenProfiles/scopedAccessToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+var ScopedAccessToken = require('../node_modules/src/models/tokenProfiles/scopedAccessToken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));

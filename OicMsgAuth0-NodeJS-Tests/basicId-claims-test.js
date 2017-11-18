@@ -4,9 +4,10 @@ var path = require('path');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+
+var BasicIdToken = require('../node_modules/src/models/tokenProfiles/basicIdToken');
+//var decode = require('../node_modules/jsonwebtoken/decode');
+//var jwt = require('../node_modules/jsonwebtoken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));

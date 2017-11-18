@@ -3,9 +3,7 @@ var jwt = require('../index');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+var BasicIdToken = require('../node_modules/src/models/tokenProfiles/basicIdToken');
 
 describe('HS256', function() {
 

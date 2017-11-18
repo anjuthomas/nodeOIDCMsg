@@ -1,8 +1,8 @@
   /* Main */
 
   var clockTimestamp = 1000000000; 
-  var BasicIdToken = require('./src/models/tokenProfiles/basicIdToken');  
-  var GoogleIdToken = require('./src/models/tokenProfiles/googleIdToken');
+  var BasicIdToken = require('./node_modules/src/models/tokenProfiles/basicIdToken');  
+  var GoogleIdToken = require('./node_modules/src/models/tokenProfiles/googleIdToken');
   
   var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
   basicIdToken2.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});

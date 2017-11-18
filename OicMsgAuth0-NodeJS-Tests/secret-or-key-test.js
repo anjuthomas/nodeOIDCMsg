@@ -1,10 +1,9 @@
 var fs = require('fs');
 var jwt = require('../index');
-var JsonWebTokenError = require('../node_modules/jsonwebtoken/lib/JsonWebTokenError');
+var JsonWebTokenError = require('../node_modules/src/controllers/messageTypes/jwt/jsonwebtoken/lib/JsonWebTokenError');
 var expect = require('chai').expect;
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+
+var BasicIdToken = require('../node_modules/src/models/tokenProfiles/basicIdToken');
 var assert = require('chai').assert;
 
 var TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.t-IDcSemACt8x4iTMCda8Yhe3iZaWbvV5XKSTbuAn0M';

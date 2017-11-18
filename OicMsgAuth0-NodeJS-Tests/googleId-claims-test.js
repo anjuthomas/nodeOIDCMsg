@@ -4,9 +4,7 @@ var path = require('path');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
-var GoogleIdToken = require('../node_modules/tokenProfiles/googleIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+var GoogleIdToken = require('../node_modules/src/models/tokenProfiles/googleIdToken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));

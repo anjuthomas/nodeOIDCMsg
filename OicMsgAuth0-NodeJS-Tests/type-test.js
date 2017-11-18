@@ -4,9 +4,8 @@ var path = require('path');
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 var ms = require('ms');
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
+
+var BasicIdToken = require('../node_modules/src/models/tokenProfiles/basicIdToken');
 
 function loadKey(filename) {
   return fs.readFileSync(path.join(__dirname, filename));
@@ -40,18 +39,6 @@ describe('Asymmetric Algorithms', function(){
     
 
         it('should throw error for incorrect type format of audience', function (done) {
-          try{
-            var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-            basicIdToken2.addNonStandardClaims({"aud" : 1, "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-            basicIdToken2.setNoneAlgorithm(true);
-            var signedJWT = basicIdToken2.toJWT('shhhh');
-          }catch(err){
-            assert.isNotNull(err);
-            done();
-          }
-        });
-
-        it('should throw error for incorrect type format of audience', function (done) {
             try{
               var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
               basicIdToken2.addNonStandardClaims({"aud" : 1, "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
@@ -75,7 +62,7 @@ describe('Asymmetric Algorithms', function(){
             }
           });
 
-          it('should throw error for incorrect type format of subject', function (done) {
+          it('should throw error for incorrect type format of jti', function (done) {
             try{
               var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, 1);
               basicIdToken2.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});

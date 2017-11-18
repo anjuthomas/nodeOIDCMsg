@@ -3,11 +3,9 @@ var path = require('path');
 var jwt = require('../index');
 //var JsonWebTokenError = require('../lib/JsonWebTokenError');
 var expect = require('chai').expect;
-var JsonWebTokenError = require('../node_modules/jsonwebtoken/lib/JsonWebTokenError');
+var JsonWebTokenError = require('../node_modules/src/controllers/messageTypes/jwt/jsonwebtoken/lib/JsonWebTokenError');
+var BasicIdToken = require('../node_modules/src/models/tokenProfiles/basicIdToken');
 
-var BasicIdToken = require('../node_modules/tokenProfiles/basicIdToken');
-var decode = require('../node_modules/jsonwebtoken/decode');
-var jwt = require('../node_modules/jsonwebtoken');
 var assert = require('chai').assert;
 
 var pub = fs.readFileSync(path.join(__dirname, 'pub.pem'), 'utf8');

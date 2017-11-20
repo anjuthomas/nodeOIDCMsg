@@ -9,10 +9,6 @@ Since instances of Message will be used in an environment where information are 
 
 Because of this a number of method has been added to support serialization to and deserialization from a number of representations that are used in the OAuth2 and OIDC protocol exchange.
 
-When a token profile’s toJWT method is called, it calls the JWT classes sign method which extends the message class.
-
-Similarily, when a token profile’s fromJWT method is called, it calls the JWT classes decode method which extends the message class.
-
 
 ## Message types 
 
@@ -21,6 +17,21 @@ The format supported are:
   * urlencoded
   * Json Web Token (JWT) signed and/or encrypted.
   
+  
+## How to serialize and deserialize other types using a token profile
+
+To serialize and deserialize a JWT type :
+
+When a token profile’s toJWT method is called, it calls the JWT classes sign method which extends the message class.
+
+When a token profile’s fromJWT method is called, it calls the JWT classes decode method which extends the message class.
+
+Similarily, the following token profile methods can be used as follows to serialize and deserialize other types. 
+
+* basicIdToken.toJSON 
+* basicIdToken.fromJSON
+* basicIdToken.toUrlEncoded 
+* basicIdToken.fromUrlEncoded
   
 
 ## How to create a token profile and add standard claims 
@@ -202,11 +213,4 @@ var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer",
 
 
 
-## How to serialize and deserialize other types using a token profile
 
-The following token profile methods can be used as follows to serialize and deserialize other types. 
-
-* basicIdToken.toJSON 
-* basicIdToken.fromJSON
-* basicIdToken.toUrlEncoded 
-* basicIdToken.fromUrlEncoded

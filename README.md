@@ -22,21 +22,21 @@ The format supported are:
 
 To serialize and deserialize a JWT type :
 
-When a token profile’s toJWT method is called, it calls the JWT classes sign method which extends the message class and serializes the JWT type.
+When a token profile’s **toJWT** method is called, it calls the JWT classes sign method which extends the message class and serializes the JWT type.
 
-When a token profile’s fromJWT method is called, it calls the JWT classes decode method which extends the message class and deserializes the JWT type.
+When a token profile’s **fromJWT** method is called, it calls the JWT classes decode method which extends the message class and deserializes the JWT type.
 
 The Message class' sign and verify methods handle the common task, such as verifying claims, among all the three types.
 
 Similarily, the following following token profile methods can be used to serialize and deserialize other types. 
 
-* toJSON 
+* **toJSON**
 
-* fromJSON
+* **fromJSON**
 
-* toUrlEncoded 
+* **toUrlEncoded**
 
-* fromUrlEncoded
+* **fromUrlEncoded**
   
 
 ## How to create a token profile and add standard claims 

@@ -188,20 +188,19 @@ A token profile’s fromJWT method can be used to decode a JWT. While the JWT is
 var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});
 ```
 
-Known non standard claims have to be verified by using the following parameters.For each of the following known standard claims, audience, iat, exp, nbf, the respective verification claims are required.
+Known non standard claims have to be verified by using the following parameters.For each of the following known standard claims (audience, iat, exp, nbf) the respective verification claims are required.
 
-**Audience : aud**
+* **Audience : aud**
 
-if you want to check audience, provide a verification claims in the fromJWT method. The audience can be checked against a string.
+If you want to check audience, provide the verification claim, aud, in the fromJWT method. The audience can be checked against a string.
 
-**Iat : maxAge**
+* **Iat : maxAge**
 
 The maxAge is the maximum allowed age for tokens to still be valid. It is expressed in seconds or a string describing a time span zeit/ms. Eg: 1000, "2 days", "10h", "7d"
 
-**exp/ nbf : clockTolerance**
+* **exp/ nbf : clockTolerance**
 
 Clock tolerance signifies the number of seconds to tolerate when checking the nbf and exp claims, to deal with small clock differences among different servers
-
 
 
 ## Other options for deserialization 

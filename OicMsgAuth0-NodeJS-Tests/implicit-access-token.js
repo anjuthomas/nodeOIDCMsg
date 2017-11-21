@@ -47,7 +47,6 @@ describe('Asymmetric Algorithms', function(){
             assert.isNotNull(decodedPayload);
             done();            
           }catch(err){
-            console.log(err)
             assert.isNull(err);
             done();
           }
@@ -58,8 +57,6 @@ describe('Asymmetric Algorithms', function(){
             var decodedPayload = implicitAccessToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "wrong-audience", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
             console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
-            console.log("_____________________________________")            
-            console.log(err);
             assert.isNotNull(err);
             done();
           }
@@ -98,7 +95,6 @@ describe('Asymmetric Algorithms', function(){
          var standardClaims = implicitAccessToken.getStandardClaims();  
          assert.deepEqual(standardClaims, { "iss" : "issuer", "sub" : 'subject',  "iat" : clockTimestamp})          
         }catch(err){
-          console.log(err);
           assert.isNull(err);
         }
         done();
@@ -109,8 +105,6 @@ describe('Asymmetric Algorithms', function(){
            var nonStandardClaims = implicitAccessToken.getNonStandardClaims();  
            assert.deepEqual(nonStandardClaims, {"aud" : "audience"})          
           }catch(err){
-            console.log("__________");
-            console.log(err);
             assert.isNull(err);
           }
           done();
@@ -127,8 +121,6 @@ describe('Asymmetric Algorithms', function(){
         try{
           var decodedPayload = implicitAccessToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
         }catch(err){
-          console.log("+++++++++++++++++++++++++++++++")
-          console.log(err);
           assert.isNotNull(decodedPayload);
           assert.isNull(err);
         }

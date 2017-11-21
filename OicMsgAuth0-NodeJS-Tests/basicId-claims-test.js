@@ -49,7 +49,6 @@ describe('Asymmetric Algorithms', function(){
             assert.isNotNull(decodedPayload);
             done();            
           }catch(err){
-            console.log(err)
             assert.isNull(err);
             done();
           }
@@ -97,7 +96,6 @@ describe('Asymmetric Algorithms', function(){
          var standardClaims = basicIdToken2.getStandardClaims();  
          assert.deepEqual(standardClaims, { "iss" : "issuer", "sub" : 'subject',  "iat" : clockTimestamp,"jti" : "jti"})          
         }catch(err){
-          console.log(err);
           assert.isNull(err);
         }
         done();
@@ -108,8 +106,6 @@ describe('Asymmetric Algorithms', function(){
            var nonStandardClaims = basicIdToken2.getNonStandardClaims();  
            assert.deepEqual(nonStandardClaims, {"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3})          
           }catch(err){
-            console.log("__________");
-            console.log(err);
             assert.isNull(err);
           }
           done();
@@ -126,8 +122,6 @@ describe('Asymmetric Algorithms', function(){
         try{
           var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
         }catch(err){
-          console.log("+++++++++++++++++++++++++++++++")
-          console.log(err);
           assert.isNotNull(decodedPayload);
           assert.isNull(err);
         }

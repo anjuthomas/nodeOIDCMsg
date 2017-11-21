@@ -46,7 +46,6 @@ describe('Asymmetric Algorithms', function(){
             assert.isNotNull(decodedPayload);
             done();            
           }catch(err){
-            console.log(err)
             assert.isNull(err);
             done();
           }
@@ -55,10 +54,7 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = scopedAccessToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "wrong-audience", 'maxAge': '1d', 'clockTolerance' : 10, "scope": "scope"}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
-            console.log("_____________________________________")            
-            console.log(err);
             assert.isNotNull(err);
             done();
           }
@@ -97,7 +93,6 @@ describe('Asymmetric Algorithms', function(){
          var standardClaims = scopedAccessToken.getStandardClaims();  
          assert.deepEqual(standardClaims, { "iss" : "issuer", "sub" : 'subject',  "iat" : clockTimestamp,"scope" : "scope"})          
         }catch(err){
-          console.log(err);
           assert.isNull(err);
         }
         done();
@@ -108,8 +103,6 @@ describe('Asymmetric Algorithms', function(){
            var nonStandardClaims = scopedAccessToken.getNonStandardClaims();  
            assert.deepEqual(nonStandardClaims, {"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3})          
           }catch(err){
-            console.log("__________");
-            console.log(err);
             assert.isNull(err);
           }
           done();
@@ -126,8 +119,6 @@ describe('Asymmetric Algorithms', function(){
         try{
           var decodedPayload = scopedAccessToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "scope": "scope"}, {'clockTimestamp' : clockTimestamp});
         }catch(err){
-          console.log("+++++++++++++++++++++++++++++++")
-          console.log(err);
           assert.isNotNull(decodedPayload);
           assert.isNull(err);
         }

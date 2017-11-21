@@ -46,7 +46,6 @@ describe('Asymmetric Algorithms', function(){
             assert.isNotNull(decodedPayload);
             done();            
           }catch(err){
-            console.log(err)
             assert.isNull(err);
             done();
           }
@@ -57,8 +56,6 @@ describe('Asymmetric Algorithms', function(){
             var decodedPayload = facebookIdToken.fromJWT(signedJWT, 'shhhh', {"userId" : "userId", "appId": "appId", 'maxAge': '1d', 'clockTolerance' : 10}, {'clockTimestamp' : clockTimestamp});
             console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
-            console.log("_____________________________________")            
-            console.log(err);
             assert.isNotNull(err);
             done();
           }
@@ -97,7 +94,6 @@ describe('Asymmetric Algorithms', function(){
          var standardClaims = facebookIdToken.getStandardClaims();  
          assert.deepEqual(standardClaims,  {"userId" : "userId", "appId": "appId", 'iat': clockTimestamp})          
         }catch(err){
-          console.log(err);
           assert.isNull(err);
         }
         done();
@@ -108,8 +104,6 @@ describe('Asymmetric Algorithms', function(){
            var nonStandardClaims = facebookIdToken.getNonStandardClaims();  
            assert.deepEqual(nonStandardClaims, {"expired_at" : clockTimestamp + 3})          
           }catch(err){
-            console.log("__________");
-            console.log(err);
             assert.isNull(err);
           }
           done();
@@ -126,8 +120,6 @@ describe('Asymmetric Algorithms', function(){
         try{
           var decodedPayload = facebookIdToken.fromJWT(signedJWT, 'shhhh',  {"userId" : "userId", "appId": "appId", 'maxAge': '1d', 'clockTolerance' : 10}, {'clockTimestamp' : clockTimestamp});
         }catch(err){
-          console.log("+++++++++++++++++++++++++++++++")
-          console.log(err);
           assert.isNotNull(decodedPayload);
           assert.isNull(err);
         }

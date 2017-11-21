@@ -46,7 +46,6 @@ describe('Asymmetric Algorithms', function(){
             assert.isNotNull(decodedPayload);
             done();            
           }catch(err){
-            console.log(err)
             assert.isNull(err);
             done();
           }
@@ -55,10 +54,7 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = googleIdToken.fromJWT(signedJWT, 'shhhh', {"name" : "name", "email": "email@google.com", "picture":  '/pathToPic', "iss": "issuer", "aud" : "wrong-audience", 'maxAge': '1d', 'clockTolerance' : 10, "sub": "subject"}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
-            console.log("_____________________________________")            
-            console.log(err);
             assert.isNotNull(err);
             done();
           }
@@ -97,7 +93,6 @@ describe('Asymmetric Algorithms', function(){
          var standardClaims = googleIdToken.getStandardClaims();  
          assert.deepEqual(standardClaims, { "name":"name", "email": "email@google.com", "picture":"/pathToPic", "iss" : "issuer", "sub" : 'subject',  "iat" : clockTimestamp})          
         }catch(err){
-          console.log(err);
           assert.isNull(err);
         }
         done();
@@ -108,8 +103,6 @@ describe('Asymmetric Algorithms', function(){
            var nonStandardClaims = googleIdToken.getNonStandardClaims();  
            assert.deepEqual(nonStandardClaims, {"aud" : "audience", "exp" : clockTimestamp + 3})          
           }catch(err){
-            console.log("__________");
-            console.log(err);
             assert.isNull(err);
           }
           done();
@@ -126,8 +119,6 @@ describe('Asymmetric Algorithms', function(){
         try{
           var decodedPayload = googleIdToken.fromJWT(signedJWT, 'shhhh', {"name":"name", "email": "email@google.com", "picture":"/pathToPic", "iss" : "issuer", "sub": "subject", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
         }catch(err){
-          console.log("+++++++++++++++++++++++++++++++")
-          console.log(err);
           assert.isNotNull(decodedPayload);
           assert.isNull(err);
         }

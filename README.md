@@ -26,7 +26,7 @@ When a token profile’s **toJWT** method is called, it calls the JWT classes si
 
 When a token profile’s **fromJWT** method is called, it calls the JWT classes decode method which extends the message class and deserializes the JWT type.
 
-The Message class' sign and verify methods handle the common task, such as verifying claims, among all the three types.
+The Message class' sign and verify methods handle the common task among all the three types, such as verifying claims,.
 
 Similarily, the following following token profile methods can be used to serialize and deserialize other types. 
 

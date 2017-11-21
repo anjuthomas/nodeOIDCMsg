@@ -211,7 +211,11 @@ For example, you can use the options algorithm and clockTimestamp as follows :
 var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{algorithm: 'HS256', 'clockTimestamp' : clockTimestamp});
 ```
 
+## Callbacks
+Callbacks can be provided as one of the parameters for a token profile's toJwt and fromJwt method.
+
 (Asynchronous) If a callback is supplied, function acts asynchronously. The callback is called with the decoded payload if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will be called with the error.
+
 (Synchronous) If a callback is not supplied, function acts synchronously. Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will throw the error.
 
 

@@ -194,10 +194,6 @@ exp/ nbf -> clockTolerance : number of seconds to tolerate when checking the nbf
 
 Options are other inputs or additional information that might be needed and are not part of the payload, for ex : 'algorithm'. Other options such as follows can be passed as in as the fourth parameter to token profile’s fromJWT method.
 
-```
-var decodedPayload = basicIdToken.fromJWT(null, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});      
-
-```
 
 ### Options
 * algorithms: List of strings with the names of the allowed algorithms. For instance, ["HS256", "HS384"].
@@ -211,7 +207,9 @@ var decodedPayload = basicIdToken.fromJWT(null, 'shhhh', {"iss" : "issuer", "sub
 * clockTimestamp: the time in seconds that should be used as the current time for all necessary comparisons.
 
 For example, you can use the options algorithm and clockTimestamp as follows :
+```
 var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{algorithm: 'HS256', 'clockTimestamp' : clockTimestamp});
+```
 
 (Asynchronous) If a callback is supplied, function acts asynchronously. The callback is called with the decoded payload if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will be called with the error.
 (Synchronous) If a callback is not supplied, function acts synchronously. Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will throw the error.

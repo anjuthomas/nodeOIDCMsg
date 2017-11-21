@@ -194,6 +194,11 @@ exp/ nbf -> clockTolerance : number of seconds to tolerate when checking the nbf
 
 Options are other inputs or additional information that might be needed and are not part of the payload, for ex : 'algorithm'. Other options such as follows can be passed as in as the fourth parameter to token profile’s fromJWT method.
 
+```
+var decodedPayload = basicIdToken.fromJWT(null, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});      
+
+```
+
 ### Options
 * algorithms: List of strings with the names of the allowed algorithms. For instance, ["HS256", "HS384"].
 * audience: if you want to check audience (aud), provide a value here. The audience can be checked against a string, a regular expression or a list of strings and/or regular expressions. Eg: "urn:foo", /urn:f[o]{2}/, [/urn:f[o]{2}/, "urn:bar"]

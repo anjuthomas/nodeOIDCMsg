@@ -225,15 +225,16 @@ var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer",
 ```
 
 ## Callbacks
-Callbacks can be provided as one of the parameters for a token profile's toJwt and fromJwt method.
+Callbacks can be provided as one of the parameters for a token profile's toJwt and fromJwt method as follows.
 
 ```
-BasicIdToken.prototype.toJWT = function(secretOrPrivateKey, options, callback)
+BasicIdToken.prototype.toJWT(secretOrPrivateKey, options, callback)
 
 ```
 
+
 ```
-BasicIdToken.prototype.fromJWT = function(signedJWT, secretOrPrivateKey, claimsToVerify, options, callback)
+BasicIdToken.prototype.fromJWT(signedJWT, secretOrPrivateKey, claimsToVerify, options, callback)
 ```
 
 (Asynchronous) If a callback is supplied, function acts asynchronously. The callback is called with the decoded payload if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will be called with the error.

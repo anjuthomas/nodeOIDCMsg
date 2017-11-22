@@ -7,14 +7,14 @@ This is a module that implements the protocol messages in OAuth2 and OpenID Conn
 
 Message is the top layer class that handles common functionality among the different serialization and deserialization types, such as claim verification.
 
-While sending request and responses, it must be possible to serialize the information to a format that can be transmitted over-the-wire. Because of this a number of methods have been added to the token profile to support serialization to and deserialization from a number of representations that are used in the OAuth2 and OIDC protocol exchange. 
+While sending request and responses, it must be possible to serialize and deserialize the information to a format that can be transmitted over-the-wire. Because of this a number of methods have been added to the token profile to support serialization to and deserialization from a number of representations that are used in the OAuth2 and OIDC protocol exchange. 
 
 Each serialization type extends the Message class, which handles the common functionality among the different types.
 
 
 ## Message types 
 
-The format supported are:
+The serialization and deserialization formats supported are:
   * JSON
   * urlencoded
   * Json Web Token (JWT) signed and/or encrypted.

@@ -43,7 +43,7 @@ Similarily, the following following token profile methods can be used to seriali
 
 ## How to create a token profile and add standard claims 
 
-A token profile is a security token that enables identity and security information to be shared across security domains. Token Profiles folder contains the different types of token profile classes including the Basic ID Token class. A token profile contains the token properties, standard, non standard and verification claims Each token profile can be instantiated with its standard claims. 
+A token profile is a security token that enables identity and security information to be shared across security domains. The token profiles folder contains the different types of token profile classes including the Basic ID Token class. A token profile contains the token properties, standard, non standard and verification claims. Each token profile can be instantiated with its standard claims. 
 
 If any of the standard claims are not specified such as the iss while creating a token profile, it will throw the following error for example : “You are missing a required parameter : iss”. 
 

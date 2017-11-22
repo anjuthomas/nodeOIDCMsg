@@ -54,7 +54,6 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = extendedIdToken.fromJWT(signedJWT, 'shhhh', {"name" : "name", "email": "email@google.com", "picture":  '/pathToPic', "iss": "issuer", "aud" : "wrong-audience", 'maxAge': '1d', 'clockTolerance' : 10, "sub": "subject"}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
             assert.isNotNull(err);
             done();

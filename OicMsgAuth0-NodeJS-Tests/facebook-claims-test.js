@@ -54,7 +54,6 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = facebookIdToken.fromJWT(signedJWT, 'shhhh', {"userId" : "userId", "appId": "appId", 'maxAge': '1d', 'clockTolerance' : 10}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
             assert.isNotNull(err);
             done();

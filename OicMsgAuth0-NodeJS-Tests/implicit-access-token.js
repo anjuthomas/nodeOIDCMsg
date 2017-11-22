@@ -55,7 +55,6 @@ describe('Asymmetric Algorithms', function(){
          
           try{
             var decodedPayload = implicitAccessToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "wrong-audience", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
-            console.log("no errorrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
           }catch(err){
             assert.isNotNull(err);
             done();

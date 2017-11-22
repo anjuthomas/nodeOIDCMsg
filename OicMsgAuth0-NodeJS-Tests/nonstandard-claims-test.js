@@ -18,7 +18,6 @@ describe('iat', function () {
       var verificationClaims = {'iss': 'issuer','sub' : 'subject', 'aud' : 'audience', 'maxAge': '1d', 'jti': 'jti'};
       var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', verificationClaims, {algorithms: ['HS256']});
     
-      console.log(decodedPayload);
       expect(decodedPayload.exp).to.be.closeTo(iat + expiresInVal, 0.2);
       
     }catch(err){
@@ -82,7 +81,6 @@ describe('iat', function () {
     var signedJWT = basicIdToken.toJWT('shhhh');
     try{
       var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
-      console.log(decodedPayload);
     }catch(err){
       assert.isNotNull(err);
     }

@@ -16,7 +16,6 @@ describe('issue 196', function () {
     basicIdToken.setNoneAlgorithm(true);
     var token = basicIdToken.toJWT('123', {algorithm : 'HS256', "keyid": "1234"});
     var decoded_issuer = JSON.parse(b64_to_utf8(token.split('.')[1])).iss;
-    console.log(decoded_issuer);
     expect(decoded_issuer).to.equal('issuer');
   });
 });

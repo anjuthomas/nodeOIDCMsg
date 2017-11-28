@@ -182,7 +182,7 @@ Generated jwts will include an iat (issued at) claim by default unless noTimesta
 
 ## How to deserialize & verify standard or non standard claims
 
-A token profile’s fromJWT method can be used to decode a JWT. While the JWT is decoded, the backend also verifies the payload to check if it matches the expected claims.  Claims to be verified can be passed in as key value pairs as the third parameter of the fromJwt method. 
+A token profile’s fromJWT method can be used to decode a JWT. While the JWT is decoded, the backend also verifies the payload to check if it matches the expected claims.  Claims to be verified can be passed in as key value pairs as the third parameter of the fromJwt method. Expected standard claim values are required while deserializing.
 
 ```
 var decodedPayload = basicJsonWebToken.fromJWT(signedJWT, secretOrPublicKey, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});

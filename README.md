@@ -188,7 +188,7 @@ A token profile’s fromJWT method can be used to decode a JWT. While the JWT is
 var decodedPayload = basicJsonWebToken.fromJWT(signedJWT, secretOrPublicKey, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});
 ```
 
-Known non standard claims have to be verified by using the following parameters.For each of the following known standard claims (audience, iat, exp, nbf) the respective verification claims are required.
+Known non standard claims have to be verified by using the following parameters.For each of the following known non-standard claims (audience, iat, exp, nbf) the respective verification claims are required.
 
 * **Audience : aud**
 

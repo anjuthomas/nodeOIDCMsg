@@ -15,8 +15,6 @@ describe('buffer payload', function () {
 
   it('should work', function () {
     var result = basicIdToken.fromJWT(signedJWT, '123', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});        
-    console.log(result);
-    console.log("____________________________________________");
     assert.isNotNull(result.payload);
   });
 });

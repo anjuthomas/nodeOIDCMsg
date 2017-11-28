@@ -19,7 +19,6 @@ describe('expires option', function() {
       var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', verificationClaims, {algorithms: ['HS256'], clockTimestamp : dateNow});
       expect(decodedPayload.exp).to.be.closeTo(iat + 10, 0.2);
     }catch(err){
-        console.log(err);
       assert.isNotNull(decodedPayload);
       assert.isNull(err);
     }

@@ -167,9 +167,7 @@ describe('HS256', function() {
       var malformedToken = token + ' '; // corrupt the token by adding a space
     try{
       var decoded = basicIdToken.fromJWT(malformedToken, secret, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp, algorithm: 'HS256', ignoreExpiration: true});
-        console.log("NO ERRRRRRRRRRROR")
     }catch(err){
-        console.log(err);
         assert.isNotNull(err);
         assert.equal('JsonWebTokenError', err.name);
         assert.equal('invalid token', err.message);

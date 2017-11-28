@@ -45,9 +45,7 @@ describe('encoding', function() {
     var signedJWT = basicIdToken.toJWT('shhhh');
 
     var payload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
-    console.log(payload);
-    console.log("This is the payload!!!!!!");
-    //expect(payload.username).to.equal(username);
+    expect(payload.username).to.equal(username);
     
   });
 

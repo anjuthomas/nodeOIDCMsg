@@ -235,7 +235,6 @@ BasicJsonWebToken.prototype.toJWT = function(secretOrPrivateKey, options, callba
 
 ```
 
-
 ```
 BasicJsonWebToken.prototype.fromJWT = function(signedJWT, secretOrPublicKey, claimsToVerify, options, callback)
 ```
@@ -244,6 +243,66 @@ BasicJsonWebToken.prototype.fromJWT = function(signedJWT, secretOrPublicKey, cla
 
 (Synchronous) If a callback is not supplied, function acts synchronously. Returns the payload decoded if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will throw the error.
 
+
+
+## Errors & Codes
+Possible thrown errors during verification.
+Error is the first argument of the verification callback.
+
+### TokenExpiredError
+
+Thrown error if the token is expired.
+
+Error object:
+
+* name: 'TokenExpiredError'
+* message: 'jwt expired'
+* expiredAt: [ExpDate]
+
+
+### JsonWebTokenError
+Error object:
+
+* name: 'JsonWebTokenError'
+* message:
+  * 'jwt malformed'
+  * 'jwt signature is required'
+  * 'invalid signature'
+  * 'jwt audience invalid. expected: [OPTIONS AUDIENCE]'
+  * 'jwt issuer invalid. expected: [OPTIONS ISSUER]'
+  * 'jwt id invalid. expected: [OPTIONS JWT ID]'
+  * 'jwt subject invalid. expected: [OPTIONS SUBJECT]'
+
+
+## Algorithms supported
+
+Array of supported algorithms. The following algorithms are currently supported.
+
+alg Parameter Value | Digital Signature or MAC Algorithm
+----------------|----------------------------
+HS256 | HMAC using SHA-256 hash algorithm
+HS384 | HMAC using SHA-384 hash algorithm
+HS512 | HMAC using SHA-512 hash algorithm
+RS256 | RSASSA using SHA-256 hash algorithm
+RS384 | RSASSA using SHA-384 hash algorithm
+RS512 | RSASSA using SHA-512 hash algorithm
+ES256 | ECDSA using P-256 curve and SHA-256 hash algorithm
+ES384 | ECDSA using P-384 curve and SHA-384 hash algorithm
+ES512 | ECDSA using P-521 curve and SHA-512 hash algorithm
+none | No digital signature or MAC value included
+
+
+## Refreshing JWTs
+
+First of all, we recommend to think carefully if auto-refreshing a JWT will not introduce any vulnerability in your system.
+
+We are not comfortable including this as part of the library, however, you can take a look to [this example](https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48) to show how this could be accomplished.
+Apart from that example there are [an issue](https://github.com/auth0/node-jsonwebtoken/issues/122) and [a pull request](https://github.com/auth0/node-jsonwebtoken/pull/172) to get more knowledge about this topic.
+
+
+# TODO
+
+* X.509 certificate chain is not checked
 
 
 

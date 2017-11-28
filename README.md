@@ -49,14 +49,14 @@ If any of the standard claims are not specified such as the iss while creating a
 
 ```
 var clockTimestamp = 1000000000;
-var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
+var basicJsonWebToken = new BasicJsonWebToken('issuer','subject', clockTimestamp, "jti");
 
 ```
 
 
 ## Supported token profile types
 
-### BasicIdToken
+### BasicJsonWebToken
 
 * Standard claims : *iss, sub, iat, jti*
 
@@ -115,7 +115,7 @@ var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
 Non standard claims can be added separately by creating a new basic id token and then calling the method ‘addNonStandardClaims’.
 
 ```
-basicIdToken.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
+basicJsonWebToken.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
 ```
 
 
@@ -124,9 +124,9 @@ basicIdToken.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 
 To access the standard claims that were previously added to a token, it can be done as follows : 
 
 ```
-var standardClaims = basicIdToken.getStandardClaims();  
+var standardClaims = basicJsonWebToken.getStandardClaims();  
        
-var nonStandardClaims = basicIdToken.getNonStandardClaims(); 
+var nonStandardClaims = basicJsonWebToken.getNonStandardClaims(); 
 ```
 
 
@@ -140,7 +140,7 @@ Header includes claims such as kid and can be used to select the key wihtin a JW
 Each token has a NoneAlgorithm boolean value which is set to False by default unless set explicitly. 
 
 ```
-basicIdToken.setNoneAlgorithm(true);
+basicJsonWebToken.setNoneAlgorithm(true);
 ```
 
 If the none algorithm property above is not set, the following error will be thrown when algorithm ‘none’ is used : 'Cannot use none algorithm unless explicitly set'
@@ -152,7 +152,7 @@ If the none algorithm property above is not set, the following error will be thr
 To sign a JWT with the Basic ID Token, call the token’s toJWT method with the secret and any additional options that need to be passed like “algorithm”. A secretOrPublicKey is a string or buffer containing either the secret for HMAC algorithms, or the PEM encoded public key for RSA and ECDSA
 
 ```
-var signedJWT = basicIdToken.toJWT('shhhh');
+var signedJWT = basicJsonWebToken.toJWT('shhhh');
 ```
 
 ## Other options for serialization
@@ -170,7 +170,7 @@ Options are other inputs or additional information that might be needed and are 
   * keyid
   
  ```
- var signedJWT = basicIdToken.toJWT('shhhh', {algorithm : 'HS256'});
+ var signedJWT = basicJsonWebToken.toJWT('shhhh', {algorithm : 'HS256'});
 ```
 
 If payload is not a buffer or a string, it will be coerced into a string using JSON.stringify.
@@ -186,7 +186,7 @@ Generated jwts will include an iat (issued at) claim by default unless noTimesta
 A token profile’s fromJWT method can be used to decode a JWT. While the JWT is decoded, the backend also verifies the payload to check if it matches the expected claims.  Claims to be verified can be passed in as key value pairs as the third parameter of the fromJwt method. 
 
 ```
-var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});
+var decodedPayload = basicJsonWebToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});
 ```
 
 Known non standard claims have to be verified by using the following parameters.For each of the following known standard claims (audience, iat, exp, nbf) the respective verification claims are required.
@@ -229,16 +229,16 @@ var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer",
 ## Callbacks
 Callbacks can be provided as one of the parameters for a token profile's toJwt and fromJwt method. 
 
-For example, here are the Basic Id token profiles method signatures:
+For example, here are the Basic Json Web token profiles method signatures:
 
 ```
-BasicIdToken.prototype.toJWT = function(secretOrPrivateKey, options, callback)
+BasicJsonWebToken.prototype.toJWT = function(secretOrPrivateKey, options, callback)
 
 ```
 
 
 ```
-BasicIdToken.prototype.fromJWT = function(signedJWT, secretOrPrivateKey, claimsToVerify, options, callback)
+BasicJsonWebToken.prototype.fromJWT = function(signedJWT, secretOrPrivateKey, claimsToVerify, options, callback)
 ```
 
 (Asynchronous) If a callback is supplied, function acts asynchronously. The callback is called with the decoded payload if the signature is valid and optional expiration, audience, or issuer are valid. If not, it will be called with the error.

@@ -218,7 +218,8 @@ Options are other inputs or additional information that might be needed and are 
 * subject: if you want to check subject (sub), provide a value here
 * clockTolerance: number of seconds to tolerate when checking the nbf and exp claims, to deal with small clock differences among different servers
 * maxAge: the maximum allowed age for tokens to still be valid. It is expressed in seconds or a string describing a time span zeit/ms. Eg: 1000, "2 days", "10h", "7d".
-* clockTimestamp: the time in seconds that should be used as the current time for all necessary comparisons.
+* clockTimestamp: the time in seconds that should be used as the current time for all necessary comparisons. This allows the user to provide any date and time and not just the current. In the backend, it fetches the clockTimestamp from the system if it is not provided : 
+```var clockTimestamp = otherOptions.clockTimestamp || Math.floor(Date.now() / 1000);```
 
 For example, you can use the options algorithm and clockTimestamp as follows :
 ```

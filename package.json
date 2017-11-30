@@ -37,7 +37,8 @@
     "cost-of-modules": "^1.0.1",
     "mocha": "^2.5.3",
     "nsp": "^2.6.2",
-    "sinon": "^1.17.7"
+    "sinon": "^1.17.7",
+    "binstring": "^1.4.3"
   },
   "engines": {
     "npm": ">=1.4.28",

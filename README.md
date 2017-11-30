@@ -301,7 +301,7 @@ Apart from that example there are [an issue](https://github.com/auth0/node-jsonw
 
 ## Project directory
 
-Navigate to the following directory to review the main implementation:
+Navigate to the main directory:
 
 ```
 cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS/node_modules/src

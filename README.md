@@ -304,14 +304,14 @@ Apart from that example there are [an issue](https://github.com/auth0/node-jsonw
 Navigate to the main directory:
 
 ```
-cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS/node_modules/src
+cd LOCAL-GIT-REPO-PATH/nodeOIDCMsg/OicMsgAuth0-NodeJS/node_modules/src
 
 ```
 
 ## Running tests
 
 ``` 
-cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS
+cd LOCAL-GIT-REPO-PATH/nodeOIDCMsg/OicMsgAuth0-NodeJS
 ```
 
 ```

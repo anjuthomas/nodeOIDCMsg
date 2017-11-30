@@ -13,21 +13,39 @@
     return decodeURIComponent(escape(atob( str )));
   }
 
+  var conv = require('binstring');
+
+  
   /*
+  console.dir(conv('hello', { in:'binary' })); // No output encoding specified, defaults to Buffer; output: Buffer([104,101,108,108,111]) 
+  console.dir(conv([104,101,108,108,111], { out:'hex' })); // No input encoding specified, auto-detected as Byte Array; output: 68656c6c6f 
+  console.dir(conv('hello', { in:'binary', out:'hex' })); 
+  */
   var clockTimestamp = 1511783267;
   
   var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
   basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
   basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256' });
+  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256', baseEncoding : 'base16' });
 
+  var urlEncodedVal = basicIdToken.toUrlEncoded();
+
+  var decodedVal = basicIdToken.fromUrlEncoded(urlEncodedVal);
+
+  var jsonStr = basicIdToken.toJSON();
+  
+  var decodedJson = basicIdToken.fromJSON(jsonStr);
+  
+  //token = "EU3UEJJSGJQWYZZFGIZCKM2BEUZDESCTGI2TMJJSGISTEQZFGIZHI6LQEUZDEJJTIESTEMSKK5KCKMRSEU3UI===.EU3UEJJSGJZXKYRFGIZCKM2BEU2UEJJSGJZXKYTKMVRXIJJSGISTKRBFGJBSKMRSNFZXGJJSGISTGQJFGVBCKMRSNFZXG5LFOISTEMRFGVCCKMSDEUZDEYLVMQSTEMRFGNASKMRSMF2WI2LFNZRWKJJSGISTEQZFGIZGM33PEUZDEJJTIESTEMTCMFZCKMRSEUZEGJJSGJUWC5BFGIZCKM2BFUYTQNBTG44DKNRXGQSTORA=.XNWVIY4JRZPCQHMEPHKGIG7YK63FY262FAQOURN5ABDSKVJ2TSQQ====";
   try{
-    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
+    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid', baseEncoding : 'base16' });
+    console.log(decoded);    
   }catch(err){
       console.log(err);
     assert.isNotNull(decoded);
     assert.isNull(err);
-  }*/
+  }
+
   /*
   var clockTimestamp = 1511783267;
   

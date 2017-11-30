@@ -356,7 +356,6 @@ describe('Asymmetric Algorithms', function(){
             try{
                 var decoded = basicIdToken.fromJWT('fruit.fruit.fruit', pub, {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
             }catch(err){
-                console.log(err);
                 assert.isUndefined(decoded);
                 assert.isNotNull(err);
                 assert.equal(err.name, 'JsonWebTokenError');
@@ -380,7 +379,6 @@ describe('Asymmetric Algorithms', function(){
             try{
                 var decoded = basicIdToken.fromJWT(token + '.foo', pub, {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
             }catch(err){
-                console.log(err);
                 assert.isUndefined(decoded);
                 assert.isNotNull(err);
                 assert.equal(err.name, 'JsonWebTokenError');
@@ -400,66 +398,11 @@ describe('Asymmetric Algorithms', function(){
           try{
             var decoded = basicIdToken.fromJWT('whatever.token', pub, {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
            }catch(err){
-            console.log(err);
             assert.isUndefined(decoded);
             assert.isNotNull(err);
             assert.equal(err.name, 'JsonWebTokenError');
             done();
            }   
-        });
-      });
-
-      
-
-      describe('when decoding a valid jwt token', function () {
-
-        var clockTimestamp = 1511783267;
-        
-        var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
-        basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
-        basicIdToken.setNoneAlgorithm(true);
-        var token = basicIdToken.toJWT(priv, {algorithm: algorithm });
-
-        it('should return the payload', function (done) {
-         /* var obj = { foo: 'bar' };
-          var token = jwt.sign(obj, priv, { algorithm: algorithm });
-          var payload = jwt.decode(token);
-          assert.equal(payload.foo, obj.foo);
-          */
-
-          /*
-        try{
-            var decoded = basicIdToken.fromJWT(token, pub, {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
-            assert.equal(payload.foo, obj.foo);   
-        }catch(err){
-            console.log(err);
-            assert.isUndefined(decoded);
-            assert.isNotNull(err);
-            assert.equal(err.name, 'JsonWebTokenError');
-            done();
-           }   */
-        });
-
-        it('should return the header and payload and signature if complete option is set', function (done) {
-          
-          /*  var obj = { foo: 'bar' };
-          var token = jwt.sign(obj, priv, { algorithm: algorithm });
-          var decoded = jwt.decode(token, { complete: true });
-          assert.equal(decoded.payload.foo, obj.foo);
-          assert.deepEqual(decoded.header, { typ: 'JWT', alg: algorithm });
-          assert.ok(typeof decoded.signature == 'string');
-          done();*/
-
-          try{
-            var decoded = basicIdToken.fromJWT(token, pub, {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid', complete: true });            
-            assert.equal(decoded.payload.foo, obj.foo);
-            assert.deepEqual(decoded.header, { typ: 'JWT', alg: algorithm });
-            assert.ok(typeof decoded.signature == 'string');
-          }catch(err){
-            console.log(err);
-            assert.isNull(err);
-          } 
-          done();           
         });
       });
     });

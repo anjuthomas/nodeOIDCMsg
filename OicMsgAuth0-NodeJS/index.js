@@ -26,7 +26,7 @@
   var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
   basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
   basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256', baseEncoding : 'base16' });
+  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256' });
 
   var urlEncodedVal = basicIdToken.toUrlEncoded();
 
@@ -38,10 +38,8 @@
   
   //token = "EU3UEJJSGJQWYZZFGIZCKM2BEUZDESCTGI2TMJJSGISTEQZFGIZHI6LQEUZDEJJTIESTEMSKK5KCKMRSEU3UI===.EU3UEJJSGJZXKYRFGIZCKM2BEU2UEJJSGJZXKYTKMVRXIJJSGISTKRBFGJBSKMRSNFZXGJJSGISTGQJFGVBCKMRSNFZXG5LFOISTEMRFGVCCKMSDEUZDEYLVMQSTEMRFGNASKMRSMF2WI2LFNZRWKJJSGISTEQZFGIZGM33PEUZDEJJTIESTEMTCMFZCKMRSEUZEGJJSGJUWC5BFGIZCKM2BFUYTQNBTG44DKNRXGQSTORA=.XNWVIY4JRZPCQHMEPHKGIG7YK63FY262FAQOURN5ABDSKVJ2TSQQ====";
   try{
-    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid', baseEncoding : 'base16' });
-    console.log(decoded);    
+    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
   }catch(err){
-      console.log(err);
     assert.isNotNull(decoded);
     assert.isNull(err);
   }

@@ -299,6 +299,24 @@ First of all, we recommend to think carefully if auto-refreshing a JWT will not 
 We are not comfortable including this as part of the library, however, you can take a look to [this example](https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48) to show how this could be accomplished.
 Apart from that example there are [an issue](https://github.com/auth0/node-jsonwebtoken/issues/122) and [a pull request](https://github.com/auth0/node-jsonwebtoken/pull/172) to get more knowledge about this topic.
 
+## Project directory
+
+Navigate to the following directory to review the main implementation:
+
+```
+cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS/node_modules/src
+
+```
+
+## Running tests
+
+``` 
+cd OicMsgAuth0-NodeJS
+```
+
+```
+npm test
+```
 
 # TODO
 

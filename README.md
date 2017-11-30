@@ -311,7 +311,7 @@ cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS/node_modules/src
 ## Running tests
 
 ``` 
-cd OicMsgAuth0-NodeJS
+cd LocalGitRepo/nodeOIDCMsg/OicMsgAuth0-NodeJS
 ```
 
 ```

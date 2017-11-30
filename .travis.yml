@@ -3,4 +3,5 @@ node_js:
  - "stable"
 install:
     - npm install binstring
+    - npm install hi-base32
     - npm install

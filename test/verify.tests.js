@@ -449,8 +449,6 @@ describe('verify', function() {
 
         try{
             var result = basicIdToken.fromJWT(token, key, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1000y', "jti": "jti"}, options);        
-            console.log(result);
-            console.log("ERROR : error messages")
        
         }catch(err){
             // maxAge not exceded, but still expired
@@ -494,8 +492,6 @@ describe('verify', function() {
         var token = refreshToken.toJWT(key, {noTimestamp : true});
         try{
             var result = refreshToken.fromJWT(token, key, {"refresh_token" : "refreshToken", "access_token": "accessToken", 'maxAge': '1s'}, options);        
-            console.log(result);
-            console.log("Result : error messages")
         }catch(err){
             assert.equal(err.name, 'JsonWebTokenError');
             assert.equal(err.message, 'iat required when maxAge is specified');

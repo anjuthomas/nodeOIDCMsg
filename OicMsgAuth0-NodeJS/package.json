@@ -19,6 +19,7 @@
     "url": "https://github.com/auth0/node-jsonwebtoken/issues"
   },
   "dependencies": {
+    "jwk-to-pem": "^1.2.6",
     "jws": "^3.1.4",
     "lodash.includes": "^4.3.0",
     "lodash.isboolean": "^3.0.3",

@@ -23,8 +23,6 @@ describe('noTimestamp', function() {
     var token = refreshToken.toJWT(key, {expiresIn: '5m', noTimestamp : true});
     try{
         var result = refreshToken.fromJWT(token, key, {"refresh_token" : "refreshToken", "access_token": "accessToken"}, options);        
-        console.log(result);
-        console.log("Result : error messages")
     }catch(err){
         assert.equal(err.name, 'JsonWebTokenError');
         assert.equal(err.message, 'iat required when maxAge is specified');

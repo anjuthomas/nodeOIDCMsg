@@ -8,25 +8,42 @@
   var expect = require('chai').expect;
   var atob = require('atob');
   var assert = require('chai').assert;  
-
-  function b64_to_utf8 (str) {
-    return decodeURIComponent(escape(atob( str )));
-  }
-
+  var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+  var jwtDecoder = require('./node_modules/src/controllers/messageTypes/jwt/jsonwebtoken/decode');  
   var conv = require('binstring');
 
-  
-  /*
-  console.dir(conv('hello', { in:'binary' })); // No output encoding specified, defaults to Buffer; output: Buffer([104,101,108,108,111]) 
-  console.dir(conv([104,101,108,108,111], { out:'hex' })); // No input encoding specified, auto-detected as Byte Array; output: 68656c6c6f 
-  console.dir(conv('hello', { in:'binary', out:'hex' })); 
-  */
   var clockTimestamp = 1511783267;
   
   var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
   basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
   basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256' });
+  var token = basicIdToken.toJWT("shh", {algorithm: 'HS256'});
+
+  var HttpClient = function() {
+    this.get = function(aUrl, aCallback) {
+        var anHttpRequest = new XMLHttpRequest();
+        anHttpRequest.onreadystatechange = function() { 
+            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                aCallback(anHttpRequest.responseText);
+        }
+
+        anHttpRequest.open( "GET", aUrl, true );            
+        anHttpRequest.send( null );
+    }
+  }
+
+  var client = new HttpClient();
+  client.get('https://sandrino.auth0.com/.well-known/jwks.json', function(response) {
+    // do something with response
+    console.log(response);
+    jwtDecoder.verifyJwtSignature(token, "test", basicIdToken,  {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' }, response, "base64");
+  });
+
+  /*
+
+  function b64_to_utf8 (str) {
+    return decodeURIComponent(escape(atob( str )));
+  }
 
   var urlEncodedVal = basicIdToken.toUrlEncoded();
 
@@ -35,15 +52,29 @@
   var jsonStr = basicIdToken.toJSON();
   
   var decodedJson = basicIdToken.fromJSON(jsonStr);
-  
-  //token = "EU3UEJJSGJQWYZZFGIZCKM2BEUZDESCTGI2TMJJSGISTEQZFGIZHI6LQEUZDEJJTIESTEMSKK5KCKMRSEU3UI===.EU3UEJJSGJZXKYRFGIZCKM2BEU2UEJJSGJZXKYTKMVRXIJJSGISTKRBFGJBSKMRSNFZXGJJSGISTGQJFGVBCKMRSNFZXG5LFOISTEMRFGVCCKMSDEUZDEYLVMQSTEMRFGNASKMRSMF2WI2LFNZRWKJJSGISTEQZFGIZGM33PEUZDEJJTIESTEMTCMFZCKMRSEUZEGJJSGJUWC5BFGIZCKM2BFUYTQNBTG44DKNRXGQSTORA=.XNWVIY4JRZPCQHMEPHKGIG7YK63FY262FAQOURN5ABDSKVJ2TSQQ====";
+*/
+
+
+  /*
   try{
     var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar","aud" : "audience", "iss" : "issuer", "sub": "subject", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jwtid"}, {"clockTimestamp" : clockTimestamp, jwtid: 'jwtid' });
   }catch(err){
     assert.isNotNull(decoded);
     assert.isNull(err);
-  }
+  }*/
+  /*
+  var certs = {
+    "use": "enc",
+    "n": "z7TYSonR4KTijDVTJJHBRs_7MUtvy2_aIPOKpkbigerOYxk7DQ9zNeaFUzFt8Pz-SCPItEcFXXIrCOm3IlyDh-yYZsMmSQhdIGneGF7DCr2NnpbF4k25VAne516t9ogCCdxvvFkqVVh2oi_lxZtXEnELqz3SsCzV5fKvxQSo8NycSe3kjBHFmLGwSILzUMeSzYjpbC7SEnYVFpVfz0LmxfDTkLWL8-uE55Qxo7BFkbRIuqUdlpEYrb7lMPKpP7BvCcIy6lXg7tyX1g-wPmsiFJlojXTWU-xWEafEwXLJ7l-YTBMQDyEYSgDBT9f-Motj6ZtwIsB0aG6tHLoXWdFqOQ",
+    "q": "_UCFtRnO9UbmxyVLX9Sq2_qI5WhXTTH2G5KWn-tA-j7xuvurqcx6IKm8yxDHKk1iDgORSkFUcOjP5B249jPR8_MpWl9VPbkpc-Kp41hqsI_8tqaTm-nmwG8KGukOnVX98BJ6EyGWlEYDlXPsEU58H1r3M9B6AbXwShCB1qomBf0",
+    "e": "AQAB",
+    "kty": "RSA",
+    "kid": "Jb8ZVEFoN1OZjdMoO6H7csDR8UPRtwgmXV6i2uzbGkY",
+    "d": "ESgxk5qlzQYhto4zE3q8ueI1MCG4ltfi70Tex5RkYnHoYXQ0lgQYMrQbgD89gyIKyR-3lPim30yudFqF5583uDMZdaeaEn9P3f0QvPea6di1iYuPxf1AmUoFcRw3h309md3tFuRQpGMdzZDiTHvj6eCPo7IEJMxXUNrGnSIg6GBSf1N4-eV9-hBw0zUNi6qY4DdnK4g9qWkn2xSRORxH7ihUWffakyE_ZWlvxFP70cbYeGE-N9gD9DnIcgGvy-A1cXSXqqaPytzVa9cUzwPV6h5goA86Iq135yKCEeRkvl8r_jU20JQJvXyfQFJC9WHl8coPTI9PQCJFDNjlv5z_uQ",
+    "p": "0fXOmXOEAgSMtP6GxgbN-cVYDMQ9_ExyM28Gp_pBwy0EOfpYkhITnaqvdN3H-TTTgZ1XkAlNmC0TqztF6Mmd3mNGWBgUN8vEGpRMinnqXNrUgh5_tWr2crsdqmTRegrZVCyVUm_CQSvQHft8i8yidqzDud5XModLSEC8olyMC-0"
+  };*/
 
+    
   /*
   var clockTimestamp = 1511783267;
   

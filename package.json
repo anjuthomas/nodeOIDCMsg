@@ -19,6 +19,7 @@
     "url": "https://github.com/auth0/node-jsonwebtoken/issues"
   },
   "dependencies": {
+    "jwk-to-pem": "^1.2.6",
     "jws": "^3.1.4",
     "lodash.includes": "^4.3.0",
     "lodash.isboolean": "^3.0.3",
@@ -28,8 +29,7 @@
     "lodash.isstring": "^4.0.1",
     "lodash.once": "^4.0.0",
     "ms": "^2.0.0",
-    "xtend": "^4.0.1",
-    "binstring": "^1.4.3"
+    "xtend": "^4.0.1"
   },
   "devDependencies": {
     "atob": "^1.1.2",
@@ -39,7 +39,6 @@
     "mocha": "^2.5.3",
     "nsp": "^2.6.2",
     "sinon": "^1.17.7"
-    
   },
   "engines": {
     "npm": ">=1.4.28",

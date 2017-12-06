@@ -11,9 +11,107 @@
   var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
   var jwtDecoder = require('./node_modules/src/controllers/messageTypes/jwt/jsonwebtoken/decode');  
   var conv = require('binstring');
-
-  var clockTimestamp = 1511783267;
+  var KeyBundle = require('./node_modules/src/models/keystore-dependency/keyBundle');  
   
+  var clockTimestamp = 1511783267;
+/*
+
+  var desc = {
+    "kty": "RSA",
+    "e": "AQAB",
+    "use": "enc",
+    "n": "inLw-BGYXhic6qS__NBRDfCqFF07lyyBO_tyoBk_EqVoyog03NzcBsKbOHFS3mtu81uBzyDA_lzVZGOacovYo3zteo2o1JrJ97LpgOa1CDgxR8KpzDXiWRRbkkIG7JvO_h9ghCfZghot-kn5JLgCRAbuMhiRT2ojdhU_nhjywI0"
+  };
+  var kb = new KeyBundle([desc]);
+  //console.log(kb.getKeys());
+
+  var keyList = [
+    {
+      "kty": "RSA",
+      "e": "AQAB",
+      "use": "enc",
+      "n": "inLw-BGYXhic6qS__NBRDfCqFF07lyyBO_tyoBk_EqVoyog03NzcBsKbOHFS3mtu81uBzyDA_lzVZGOacovYo3zteo2o1JrJ97LpgOa1CDgxR8KpzDXiWRRbkkIG7JvO_h9ghCfZghot-kn5JLgCRAbuMhiRT2ojdhU_nhjywI0"
+    },
+    {
+      "kty": "RSA",
+      "e": "AQAB",
+      "use": "sig",
+      "n": "0eAoiw_xP35yXeJJSNrjhplu32XhEaRpYIshCP-8FvktNnbULFKF_2hHQ7c7iPpmZS7-U8zEQn3O-ZrVDw9u4Ito0FvQ2fw7eZNNxsb8WlZHW07e_y2xByYfwfQhk3Nn9yqb5xSfdaVAUaRFPFSxE_gOu6iaWGp8lz-fyznxaDk"
+    }
+  ];
+  var kb = new KeyBundle(keyList);
+  //console.log(kb.getKeys());
+
+  var kb = new KeyBundle([], 'https://sandrino.auth0.com/.well-known/jwks.json', 'jwks');
+  console.log(kb.getKeys());
+  */
+  /*
+  var jwk = {
+    "keys": [
+      {
+        "use": "enc",
+        "n": "z7TYSonR4KTijDVTJJHBRs_7MUtvy2_aIPOKpkbigerOYxk7DQ9zNeaFUzFt8Pz-SCPItEcFXXIrCOm3IlyDh-yYZsMmSQhdIGneGF7DCr2NnpbF4k25VAne516t9ogCCdxvvFkqVVh2oi_lxZtXEnELqz3SsCzV5fKvxQSo8NycSe3kjBHFmLGwSILzUMeSzYjpbC7SEnYVFpVfz0LmxfDTkLWL8-uE55Qxo7BFkbRIuqUdlpEYrb7lMPKpP7BvCcIy6lXg7tyX1g-wPmsiFJlojXTWU-xWEafEwXLJ7l-YTBMQDyEYSgDBT9f-Motj6ZtwIsB0aG6tHLoXWdFqOQ",
+        "q": "_UCFtRnO9UbmxyVLX9Sq2_qI5WhXTTH2G5KWn-tA-j7xuvurqcx6IKm8yxDHKk1iDgORSkFUcOjP5B249jPR8_MpWl9VPbkpc-Kp41hqsI_8tqaTm-nmwG8KGukOnVX98BJ6EyGWlEYDlXPsEU58H1r3M9B6AbXwShCB1qomBf0",
+        "e": "AQAB",
+        "kty": "RSA",
+        "kid": "Jb8ZVEFoN1OZjdMoO6H7csDR8UPRtwgmXV6i2uzbGkY",
+        "d": "ESgxk5qlzQYhto4zE3q8ueI1MCG4ltfi70Tex5RkYnHoYXQ0lgQYMrQbgD89gyIKyR-3lPim30yudFqF5583uDMZdaeaEn9P3f0QvPea6di1iYuPxf1AmUoFcRw3h309md3tFuRQpGMdzZDiTHvj6eCPo7IEJMxXUNrGnSIg6GBSf1N4-eV9-hBw0zUNi6qY4DdnK4g9qWkn2xSRORxH7ihUWffakyE_ZWlvxFP70cbYeGE-N9gD9DnIcgGvy-A1cXSXqqaPytzVa9cUzwPV6h5goA86Iq135yKCEeRkvl8r_jU20JQJvXyfQFJC9WHl8coPTI9PQCJFDNjlv5z_uQ",
+        "p": "0fXOmXOEAgSMtP6GxgbN-cVYDMQ9_ExyM28Gp_pBwy0EOfpYkhITnaqvdN3H-TTTgZ1XkAlNmC0TqztF6Mmd3mNGWBgUN8vEGpRMinnqXNrUgh5_tWr2crsdqmTRegrZVCyVUm_CQSvQHft8i8yidqzDud5XModLSEC8olyMC-0"
+      },
+      {
+        "use": "sig",
+        "n": "sTmvermNFgmCErMP-Eo5a1CWlR69N_eEcEWMlSW2JTwyQK7Ao5ulcNs730O2M6BTrZOqH146heN9XQoYQVfdzgVTuuA9ivRfdazAh7SpMPCp4WtxG-eVuaWNDPKWFf8NHkU83Wpq3UyYtAWxE-Cm3KPlY5HlU3MAr9rv5uLUm7bHjHBl2PaVMfGrNquSImocD7N9pvgoUjM6hHfhCS9MGn3ulYBeWueMlMR3mwQTgNnKcYY4lChgQz8cB2pUADWIAfM1Rour_Xwv_aHlnhM1BvP0mG65WeB8NcCqYZYPDpp48og6SjmNLfSiVaUubChJ9Bv0mpQUxRX5a_hKph64Dw",
+        "q": "5uWOdbicks_BIImjfx2Q0eXkxnCVWpCyuVDFQbP5xHkN3SWgv9146U9zDdc414RT4SaGuC3H7whO0ph48izuwUkqVZATkGLYPjRj3z0QMRUm_WTKJNDyGoK2weA82xVcUsCfWX_n7QE6GLa5RR4eOL_pqe1MFTJpzOuYXU5bbN0",
+        "e": "AQAB",
+        "kty": "RSA",
+        "kid": "QTxQZYpSX_HLmP_piD3k8aP8bq0vfwy3wXTnfrz8Qlc",
+        "d": "GoeSm7H8C0D4Hjl82gOubcCeEguMcrzUMARRQ6BmEFPfB-zA_JzXmrnO0CCwPTEyZYj1zgVKiHFh-lQBBoMTOnx0qMRZohvr0E9AcPAb5a4ZGBv_zhgQQz6jiz0jN367JX1i25hLD_6f208Az4NxJxVHyOx1olTUVP7Wq77n6bkmUnI0VKbdVO6MDmwDjdsynt2kRGEsRdPNvDhUsBxwesqjSrrawwLGILGYveno-i2saFHihFFpBO58OVnJXzowSne_9SKI01PH2PYHrmc-rE6lxmwIysbguS9H0YvygWxx0es3_G3gqjrRZsSqXNuVxyfJSAESKQQMnhIE1m-N3Q",
+        "p": "xH5RaAwfjt5ZsWn626mxtHh5vEmKdqBY0DcnTmpUSvfLXtzhIf8lnyy-hBFbFUKH2mSng-QqyIHjsTPQAGAD-VCgoATleIsPKYSDOUqB2H7v-CBTLEDQiuaj9PuiIsEuGEBCuVGLR2yvy9iquVED9SILynro4S8DIVfLUkcKA9s"
+      },
+      {
+        "y": "CK7MZC1WqmrX9NFVkqp2ONXri-7ex-zRR0TNrnZ1XGo",
+        "use": "sig",
+        "crv": "P-256",
+        "kty": "EC",
+        "kid": "dat3aVDlZO57WjObkuvdk1ipku6g4pNOWJ6_vnVoX1A",
+        "d": "H5evN3jPEtSURbpzlp23RJ0gTMSg-fUxMdWczA9u38U",
+        "x": "FZCtFh6QmoHZ8vmQiDFOVIOEBqr9Lokqw_yLFB8oq3Y"
+      }
+    ]
+  };
+
+  var kb = new KeyBundle();
+  kb.imp_jwks = jwk;
+  console.log(kb.getKty('EC'));*/
+
+  var jwk = {"keys": [
+    {
+        "n":
+            "zkpUgEgXICI54blf6iWiD2RbMDCOO1jV0VSff1MFFnujM4othfMsad7H1kRo50YM5S_X9TdvrpdOfpz5aBaKFhT6Ziv0nhtcekq1eRl8mjBlvGKCE5XGk-0LFSDwvqgkJoFYInq7bu0a4JEzKs5AyJY75YlGh879k1Uu2Sv3ZZOunfV1O1Orta-NvS-aG_jN5cstVbCGWE20H0vFVrJKNx0Zf-u-aA-syM4uX7wdWgQ-owoEMHge0GmGgzso2lwOYf_4znanLwEuO3p5aabEaFoKNR4K6GjQcjBcYmDEE4CtfRU9AEmhcD1kleiTB9TjPWkgDmT9MXsGxBHf3AKT5w",
+        "e": "AQAB", "kty": "RSA", "kid": "rsa1"},
+    {
+        "n":
+            "zkpUgEgXICI54blf6iWiD2RbMDCOO1jV0VSff1MFFnujM4othfMsad7H1kRo50YM5S_X9TdvrpdOfpz5aBaKFhT6Ziv0nhtcekq1eRl8mjBlvGKCE5XGk-0LFSDwvqgkJoFYInq7bu0a4JEzKs5AyJY75YlGh879k1Uu2Sv3ZZOunfV1O1Orta-NvS-aG_jN5cstVbCGWE20H0vFVrJKNx0Zf-u-aA-syM4uX7wdWgQ-owoEMHge0GmGgzso2lwOYf_4znanLwEuO3p5aabEaFoKNR4K6GjQcjBcYmDEE4CtfRU9AEmhcD1kleiTB9TjPWkgDmT9MXsGxBHf3AKT5w",
+        "e": "AQAB", "kty": "RSA", "kid": "rsa1"},
+]}
+
+  var kb = new KeyBundle();  
+  kb.imp_jwks = jwk;  
+  /*var k = kb.getKeyWithKid('rsa1');
+  console.log(k)
+  console.log(k.kid)
+  console.log(k.kty)*/
+
+  console.log(kb.getKeys());
+
+  var originalKbKeys = kb.getKeys();
+  var kbKeysList = kb.getKeys();
+  for (var k in originalKbKeys){
+    kb.remove(kbKeysList[k]);
+  }
+  console.log(kb.getKeys());
+
+/*
   var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
   basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
   basicIdToken.setNoneAlgorithm(true);
@@ -100,197 +198,3 @@
     assert.isNotNull(err);
     assert.equal(err.name, 'JsonWebTokenError');
   } */
-
-  /*
-  var clockTimestamp = 1520000000;
-  
-  //token = jwt.sign({ foo: 'bar' }, priv, { algorithm: algorithm, notBefore: 0 });
-
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
-  basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT("shh", {notBefore: 0, algorithm: 'HS256' });
-
-  try{
-    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar", "iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jti"}, {"clockTimestamp" : clockTimestamp});
-  }catch(err){
-    assert.isNull(err);
-    assert.isNotNull(decoded);
-    done();
-  } 
-  /*
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"foo": 'bar', "aud" : "audience"});
-  basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT("shh", { algorithm: "HS256"});
-  
-  try{
-    var decoded = basicIdToken.fromJWT(token, "shh", {"foo": "bar", "iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '3s', 'clockTolerance' : 10, "jti": "jti"}, {"clockTimestamp" : clockTimestamp});
-    assert.ok(decoded.issuer);
-    assert.equal('issuer', decoded.issuer);
-    done();                
-  }catch(err){
-    console.log(err);
-  }*/
-  
-
-
-  /*
-  var clockTimestamp = 1437018582;
-  //var token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.0MBPd4Bru9-fK_HY3xmuDAc6N_embknmNuhdb9bKL_U';
-  var options = {algorithms: ['HS256'], clockTimestamp: clockTimestamp, maxAge: '1s'};
-  var key = "secret";
-  var refreshToken = new RefreshToken('refreshToken','accessToken');
-  var token = refreshToken.toJWT(key, {noTimestamp : true});
-  try{
-      var result = refreshToken.fromJWT(token, key, {"refresh_token" : "refreshToken", "access_token": "accessToken", 'maxAge': '1s'}, options);        
-      console.log(result);
-      console.log("Result : error messages")
-  }catch(err){
-      assert.equal(err.name, 'JsonWebTokenError');
-      assert.equal(err.message, 'iat required when maxAge is specified');
-      assert.isUndefined(result);
-      done();
-  }*/
-  /*
-
-  var options = {algorithms: ['HS256'], clockTimestamp : 1437018587000};
-  var key = "secret";
-  var basicIdToken = new BasicIdToken('issuer','subject',1437018587000 - 5, "jti");
-  basicIdToken.addNonStandardClaims({  'foo': 'bar' , "aud" : "audience", "exp" : 1437018587000 + 5});
-  basicIdToken.setNoneAlgorithm(true);
-  var token = basicIdToken.toJWT(key);
- 
-    try{
-      var result = basicIdToken.fromJWT(token, key, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '3s', 'clockTolerance' : 0.001, "jti": "jti"}, options);        
-    }catch(err){
-        assert.equal(err.name, 'TokenExpiredError');
-        assert.equal(err.message, 'maxAge exceeded');
-        assert.equal(err.expiredAt.constructor.name, 'Date');
-        assert.equal(Number(err.expiredAt), 1437018586998000);
-        assert.isUndefined(result);
-    }
-  
-  try{
-    var secret = "secret";
-    var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-    basicIdToken.addNonStandardClaims({  'foo': 'bar' , "aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : 1});
-    basicIdToken.setNoneAlgorithm(true);
-    var token = basicIdToken.toJWT(secret, {notBefore: {}});
-  }catch(err){
-    expect(err).to.be.ok();
-  }*/
-
-  /*
-  var clockTimestamp = Math.floor(Date.now() / 1000);  
-  
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"foo": "123", "aud" : "audience"});
-  basicIdToken.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken.toJWT('123', {expiresIn: '5m' , noTimestamp: true });
-
-  var result = basicIdToken.fromJWT(signedJWT, '123', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});        
- 
- console.log("RESULTTTTTT!!!!!");
- console.log(result);
- expect(result.exp).to.be.closeTo(Math.floor(Date.now() / 1000) + (5*60), 0.5);*/
- 
-      /*
-      var secret = "shhhh";
-      var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-      basicIdToken.addNonStandardClaims({ "foo": "bar", "aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : 1});
-      basicIdToken.setNoneAlgorithm(true);
-      var token = basicIdToken.toJWT(secret, { algorithm: 'HS256'   });
-  
-        var malformedToken = token + ' '; // corrupt the token by adding a space
-        var decoded = basicIdToken.fromJWT(malformedToken, secret, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp, algorithm: 'HS256', ignoreExpiration: true});
-          console.log("NO ERRRRRRRRRRROR")*/
-  /*
-      var verificationClaims = {'iss': 'issuer','sub' : 'subject', 'aud' : 'audience', 'maxAge': '1d', 'jti': 'jti'};
-      var decodedPayload = basicIdToken.fromJWT(signedJWT, 'shhhh', verificationClaims, {algorithms: ['HS256']});
-      expect(decodedPayload.exp).to.be.closeTo(iat + two_days_in_secs, 0.2);
-     
-      var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-      basicIdToken.addNonStandardClaims({ "foo": "bar", "aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-      basicIdToken.setNoneAlgorithm(true);
-      var token = basicIdToken.toJWT(secret, { algorithm: 'HS256' });*/
-      /*
-  var expected = 'José';
-  
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"name" : expected, "aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-  basicIdToken.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken.toJWT('shhhh', { encoding: 'binary' });
-  
-  var decoded_name = JSON.parse(atob(signedJWT.split('.')[1])).name;
-  expect(decoded_name).to.equal(expected);*/
-
-  /*
-  var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken2.addNonStandardClaims({"nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-  basicIdToken2.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken2.toJWT('shhhh');
-
-  var decodedPayload = basicIdToken2.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
-*/
-  /*
-  var fs = require('fs');
-  var path = require('path');
-  
-  var pub = fs.readFileSync(path.join(__dirname, 'pub.pem'), 'utf8');
-
-  var clockTimestamp = 1000000000;
-  
-  var refreshToken = new RefreshToken('refreshToken', 'accessToken');
-  refreshToken.addNonStandardClaims({"foo": "123"});
-  refreshToken.setNoneAlgorithm(true);
-  var signedJWT = refreshToken.toJWT('123', {expiresIn: '5m' , noTimestamp: true });
-
-  var result = refreshToken.fromJWT(signedJWT, '123', {"refresh_token" : "refreshToken", "access_token": "accessToken"});    */  
-
-  /*
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"foo": "123", "aud" : "audience"});
-  basicIdToken.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken.toJWT('123', {expiresIn: '5m' , noTimestamp: true });
-
-  var result = basicIdToken.fromJWT(signedJWT, '123', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"});        
-  */
-  /*
-  var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-  basicIdToken.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken.toJWT(pub, {algorithm : 'HS256'});
-
-  //var decodedPayload = basicIdToken.fromJWT(signedJWT, pub, {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"},{'clockTimestamp' : clockTimestamp});        
-  */
-  /*
-  var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
-  basicIdToken2.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
-  basicIdToken2.setNoneAlgorithm(true);
-  var signedJWT = basicIdToken2.toJWT('shhhh');
-
-  var decodedPayload = basicIdToken2.fromJWT(signedJWT, 'shhhh', {"iss" : "issuer", "sub": "subject", "aud" : "audience", 'maxAge': '1d', 'clockTolerance' : 10, "jti": "jti"}, {'clockTimestamp' : clockTimestamp});
-
-  var googleIdToken = new GoogleIdToken('name', 'email@google.com', '/pathToPic', 'issuer','subject', clockTimestamp);
-  googleIdToken.addNonStandardClaims({"aud" : "audience", "exp" : clockTimestamp + 3});
-  googleIdToken.setNoneAlgorithm(true);        
- 
-  var standardClaims = googleIdToken.getStandardClaims();  
-
-  var nonStandardClaims = googleIdToken.getNonStandardClaims();  
-
-
- var basicIdToken2 = new BasicIdToken('issuer','subject', clockTimestamp, "jti");
- basicIdToken2.addNonStandardClaims({"aud" : "audience", "nbf" : clockTimestamp + 2, "exp" : clockTimestamp + 3});
- basicIdToken2.setNoneAlgorithm(true);        
- var nonStandardClaims = basicIdToken2.getNonStandardClaims();  
-
- var googleIdToken = new GoogleIdToken('name', 'email@google.com', '/pathToPic', 'issuer','subject', clockTimestamp);
- googleIdToken.setNoneAlgorithm(true);
- var signedJWT = googleIdToken.toJWT('shhhh');
-
- var decodedPayload = googleIdToken.fromJWT(signedJWT, 'shhhh', {"name":"name", "email": "email@google.com", "picture":"/pathToPic", "iss" : "issuer", "sub": "subject", 'maxAge': '1d'}, {'clockTimestamp' : clockTimestamp});
- console.log(decodedPayload);
- */
- 

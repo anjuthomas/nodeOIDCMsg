@@ -83,7 +83,7 @@
   var kb = new KeyBundle();
   kb.imp_jwks = jwk;
   console.log(kb.getKty('EC'));*/
-
+/*
   var jwk = {"keys": [
     {
         "n":
@@ -97,19 +97,36 @@
 
   var kb = new KeyBundle();  
   kb.imp_jwks = jwk;  
-  /*var k = kb.getKeyWithKid('rsa1');
+  var k = kb.getKeyWithKid('rsa1');
   console.log(k)
   console.log(k.kid)
   console.log(k.kty)*/
 
-  console.log(kb.getKeys());
+  //console.log(kb.getKeys());
 
+  var desc = {
+    "kty": "RSA",
+    "e": "AQAB",
+    "use": "enc",
+    "kid": "Jb8ZVEFoN1OZjdMoO6H7csDR8UPRtwgmXV6i2uzbGkY",    
+    "n": "inLw-BGYXhic6qS__NBRDfCqFF07lyyBO_tyoBk_EqVoyog03NzcBsKbOHFS3mtu81uBzyDA_lzVZGOacovYo3zteo2o1JrJ97LpgOa1CDgxR8KpzDXiWRRbkkIG7JvO_h9ghCfZghot-kn5JLgCRAbuMhiRT2ojdhU_nhjywI0"
+  };
+  var kb = new KeyBundle([desc]);
+/*
   var originalKbKeys = kb.getKeys();
   var kbKeysList = kb.getKeys();
-  for (var k in originalKbKeys){
-    kb.remove(kbKeysList[k]);
+  for (var i = originalKbKeys.length-1; i >= 1; i--){
+    kb.remove(kbKeysList[i]);
   }
   console.log(kb.getKeys());
+
+  for (var i in kb.getKeys()){
+    kb.markAsInactive(kb.keys[i].kid)    
+  }
+
+  console.log(kb.getKeys());*/
+
+  kb.doLocalJwk("/Users/anjuthomas/Documents/jwk.json");
 
 /*
   var basicIdToken = new BasicIdToken('issuer','subject', clockTimestamp, "jwtid");
